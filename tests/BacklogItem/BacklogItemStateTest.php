@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\Backlogitem;
+namespace App\Tests\BacklogItem;
 
 use App\Entity\BacklogItem\States\BacklogItemState;
 use App\Entity\BacklogItem\States\DoneState;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Backlogitem;
+namespace App\Tests\BacklogItem;
 
 use App\Entity\BacklogItem\States\DoingState;
 use App\Entity\BacklogItem\States\DoneState;

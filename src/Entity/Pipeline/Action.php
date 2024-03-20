@@ -2,7 +2,10 @@
 
 namespace App\Entity\Pipeline;
 
-interface Action extends DevopsAction
+class Action implements DevopsAction
 {
+    public function execute(): string
+    {
 
+    }
 }

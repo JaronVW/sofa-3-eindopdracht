@@ -8,6 +8,7 @@ use App\Entity\BacklogItem\States\TodoState;
 use App\Entity\Exceptions\ModificationNotAllowedException;
 use App\Entity\Exceptions\StateTransitionInvalidException;
 use App\Entity\Observer\NotificationManager;
+use App\Entity\Users\Developer;
 use App\Entity\Users\User;
 
 class BacklogItem
@@ -25,7 +26,9 @@ class BacklogItem
         public readonly string               $title,
         public readonly string               $description,
         private readonly NotificationManager $notificationManager,
-        private ?User                        $developer
+        private ?Developer                   $developer,
+        private EffortPointCount             $effortPoints
+
     )
     {
         $this->state = new TodoState($this->notificationManager);
@@ -41,7 +44,7 @@ class BacklogItem
         $this->backlogActivities[] = $backlogActivity;
     }
 
-    public function getDeveloper(): ?User
+    public function getDeveloper(): ?Developer
     {
         return $this->developer;
     }
@@ -88,6 +91,16 @@ class BacklogItem
     public function isDone(): bool
     {
         return $this->done;
+    }
+
+    public function getEffortPoints(): int
+    {
+        return $this->effortPoints;
+    }
+
+    public function setEffortPoints(int $effortPoints): void
+    {
+        $this->effortPoints = $effortPoints;
     }
 
 }

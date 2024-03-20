@@ -3,14 +3,14 @@
 namespace App\Tests;
 
 use App\Entity\BacklogItem\BacklogItem;
+use App\Entity\BacklogItem\EffortPointCount;
+use App\Entity\Exceptions\InvalidEffortPointException;
 use App\Entity\Exceptions\ModificationNotAllowedException;
 use App\Entity\Observer\NotificationManager;
-use App\Entity\Observer\UserRole;
 use App\Entity\Sprint\SprintFactory;
 use App\Entity\Sprint\States\Release\ReleaseInProgressState;
 use App\Entity\Users\Developer;
-use App\Entity\Users\ProductOwner;
-use App\Entity\Users\User;
+use App\Entity\Users\ScrumMaster;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +26,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
-            new ProductOwner()
+            new ScrumMaster()
         );
         self::assertSame("Code cleanup", $sprint->getName());
 
@@ -47,7 +47,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             $start,
             new DateTimeImmutable(),
-            new ProductOwner()
+            new ScrumMaster()
         );
         self::assertSame($start, $sprint->getStartDate());
 
@@ -67,7 +67,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             $end,
-            new ProductOwner()
+            new ScrumMaster()
         );
         self::assertSame($end, $sprint->getEndDate());
 
@@ -85,7 +85,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
-            new ProductOwner()
+            new ScrumMaster()
         );
 
         $sprint->setState(new ReleaseInProgressState());
@@ -106,7 +106,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             $start,
             new DateTimeImmutable(),
-            new ProductOwner()
+            new ScrumMaster()
         );
         $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
@@ -125,7 +125,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             $end,
-            new ProductOwner()
+            new ScrumMaster()
         );
         $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
@@ -135,6 +135,7 @@ class SprintTest extends TestCase
     /**
      * @test
      * @throws ModificationNotAllowedException
+     * @throws InvalidEffortPointException
      */
     public function it_allows_adding_backlog_items()
     {
@@ -142,13 +143,14 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
-            new ProductOwner()
+            new ScrumMaster()
         );
         $backlogitem = new BacklogItem(
             "Refactor variables",
             "Rename variables to make them more descriptive",
             new NotificationManager(),
-            new Developer()
+            new Developer(),
+            new EffortPointCount(1)
         );
         self::assertEquals([], $sprint->getBacklogItems());
         $sprint->addBacklogItem(
@@ -160,6 +162,7 @@ class SprintTest extends TestCase
     /**
      * @test
      * @throws ModificationNotAllowedException
+     * @throws InvalidEffortPointException
      */
     public function it_disallows_adding_backlog_items()
     {
@@ -167,7 +170,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
-            new ProductOwner()
+            new ScrumMaster()
         );
 
         $sprint->setState(new ReleaseInProgressState());
@@ -178,7 +181,8 @@ class SprintTest extends TestCase
                 "Refactor variables",
                 "Rename variables to make them more descriptive",
                 new NotificationManager(),
-                new Developer()
+                new Developer(),
+                new EffortPointCount(1)
             )
         );
     }

@@ -3,6 +3,7 @@
 namespace App\Entity\Sprint;
 
 use App\Entity\Users\ProductOwner;
+use App\Entity\Users\ScrumMaster;
 use DateTimeImmutable;
 
 class SprintFactory
@@ -15,19 +16,21 @@ class SprintFactory
         string            $name,
         DateTimeImmutable $startDate,
         DateTimeImmutable $endDate,
-        ProductOwner      $productOwner
+        ScrumMaster       $scrumMaster,
+        ProductOwner      $productOwner = null
     ): Sprint
     {
-        return new ReleaseSprint($name, $startDate, $endDate, $productOwner);
+        return new ReleaseSprint($name, $startDate, $endDate, $scrumMaster, $productOwner);
     }
 
     public static function createPartialProductSPrint(
         string            $name,
         DateTimeImmutable $startDate,
         DateTimeImmutable $endDate,
-        ProductOwner      $productOwner
+        ScrumMaster       $scrumMaster,
+        ProductOwner      $productOwner = null
     ): Sprint
     {
-        return new PartialProductSprint($name, $startDate, $endDate, $productOwner);
+        return new PartialProductSprint($name, $startDate, $endDate, $scrumMaster, $productOwner);
     }
 }

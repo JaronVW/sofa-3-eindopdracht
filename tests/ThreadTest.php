@@ -3,13 +3,14 @@
 namespace App\Tests;
 
 use App\Entity\BacklogItem\BacklogItem;
+use App\Entity\BacklogItem\EffortPointCount;
+use App\Entity\Exceptions\InvalidEffortPointException;
 use App\Entity\Exceptions\ModificationNotAllowedException;
+use App\Entity\Exceptions\StateTransitionInvalidException;
 use App\Entity\Observer\NotificationManager;
-use App\Entity\Observer\UserRole;
 use App\Entity\Threads\Comment;
 use App\Entity\Threads\Thread;
 use App\Entity\Users\Developer;
-use App\Entity\Users\User;
 use PHPUnit\Framework\TestCase;
 
 class ThreadTest extends TestCase
@@ -18,6 +19,7 @@ class ThreadTest extends TestCase
     /**
      * @test
      * @throws ModificationNotAllowedException
+     * @throws InvalidEffortPointException
      */
     public function it_allows_editing_topic_name()
     {
@@ -28,7 +30,8 @@ class ThreadTest extends TestCase
                 "Clean up the code",
                 "We need to clean up the code",
                 new NotificationManager(),
-                new Developer()
+                new Developer(),
+                new EffortPointCount(1)
             )
         );
         self::assertSame("Code cleanup", $thread->getTopic());
@@ -40,6 +43,7 @@ class ThreadTest extends TestCase
     /**
      * @test
      * @throws ModificationNotAllowedException
+     * @throws InvalidEffortPointException
      */
     public function it_allows_editing_content()
     {
@@ -50,7 +54,8 @@ class ThreadTest extends TestCase
                 "Clean up the code",
                 "We need to clean up the code",
                 new NotificationManager(),
-                new Developer()
+                new Developer(),
+                new EffortPointCount(1)
             )
         );
         self::assertSame("We need to clean up the code", $thread->getContent());
@@ -62,6 +67,7 @@ class ThreadTest extends TestCase
     /**
      * @test
      * @throws ModificationNotAllowedException
+     * @throws InvalidEffortPointException
      */
     public function it_allows_adding_comments()
     {
@@ -72,7 +78,8 @@ class ThreadTest extends TestCase
                 "Clean up the code",
                 "We need to clean up the code",
                 new NotificationManager(),
-                new Developer()
+                new Developer(),
+                new EffortPointCount(1)
             )
         );
         $thread->addComment(new Comment("I agree", new Developer()));
@@ -82,6 +89,7 @@ class ThreadTest extends TestCase
     /**
      * @test
      * @throws ModificationNotAllowedException
+     * @throws InvalidEffortPointException|StateTransitionInvalidException
      */
     public function it_disallows_editing_topic_name()
     {
@@ -89,7 +97,8 @@ class ThreadTest extends TestCase
             "Clean up the code",
             "We need to clean up the code",
             new NotificationManager(),
-            new Developer()
+            new Developer(),
+            new EffortPointCount(1)
         );
 
         for ($i = 0; $i < 5; $i++) {
@@ -108,6 +117,7 @@ class ThreadTest extends TestCase
     /**
      * @test
      * @throws ModificationNotAllowedException
+     * @throws InvalidEffortPointException
      */
     public function it_disallows_editing_content()
     {
@@ -115,7 +125,8 @@ class ThreadTest extends TestCase
             "Clean up the code",
             "We need to clean up the code",
             new NotificationManager(),
-            new Developer()
+            new Developer(),
+            new EffortPointCount(1)
         );
         $thread = new Thread(
             "Code cleanup",
@@ -134,6 +145,7 @@ class ThreadTest extends TestCase
     /**
      * @test
      * @throws ModificationNotAllowedException
+     * @throws InvalidEffortPointException
      */
     public function it_disallows_adding_comments()
     {
@@ -141,7 +153,9 @@ class ThreadTest extends TestCase
             "Clean up the code",
             "We need to clean up the code",
             new NotificationManager(),
-            new Developer()
+            new Developer(),
+            new EffortPointCount(1)
+
         );
         $thread = new Thread(
             "Code cleanup",
