@@ -7,7 +7,7 @@ use App\Entity\Exceptions\ModificationNotAllowedException;
 use App\Entity\Observer\NotificationManager;
 use App\Entity\Observer\UserRole;
 use App\Entity\Sprint\SprintFactory;
-use App\Entity\Sprint\States\InProgressState;
+use App\Entity\Sprint\States\Release\ReleaseInProgressState;
 use App\Entity\User;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -82,7 +82,7 @@ class SprintTest extends TestCase
             new DateTimeImmutable()
         );
 
-        $sprint->setState(new InProgressState());
+        $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
         $sprint->setName("Refactoring");
     }
@@ -101,7 +101,7 @@ class SprintTest extends TestCase
             $start,
             new DateTimeImmutable()
         );
-        $sprint->setState(new InProgressState());
+        $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
         $sprint->setStartDate($newStart);
     }
@@ -119,7 +119,7 @@ class SprintTest extends TestCase
             new DateTimeImmutable(),
             $end
         );
-        $sprint->setState(new InProgressState());
+        $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
         $sprint->setEndDate($newEnd);
     }
@@ -160,7 +160,7 @@ class SprintTest extends TestCase
             new DateTimeImmutable(),
         );
 
-        $sprint->setState(new InProgressState());
+        $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
 
         $sprint->addBacklogItem(

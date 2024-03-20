@@ -5,8 +5,9 @@ namespace App\Entity\Sprint;
 use App\Entity\Backlog;
 use App\Entity\BacklogItem\BacklogItem;
 use App\Entity\Exceptions\ModificationNotAllowedException;
-use App\Entity\Sprint\States\CreatedState;
+use App\Entity\Sprint\States\Release\ReleaseCreatedState;
 use App\Entity\Sprint\States\SprintState;
+use App\Entity\User;
 use DateTimeImmutable;
 
 abstract class Sprint
@@ -15,27 +16,24 @@ abstract class Sprint
     private SprintState $state;
     private Backlog $backlog;
 
+    private array $developers = [];
+
+
     public function __construct(
         private string            $name,
         private DateTimeImmutable $startDate,
         private DateTimeImmutable $endDate,
+        private User $scrumMaster,
+        private ?user $productOwner = null
     )
     {
-        $this->state = new CreatedState();
+        $this->state = new ReleaseCreatedState();
         $this->backlog = new Backlog();
     }
 
     /**
      * @throws ModificationNotAllowedException
      */
-    private function modifySprintAllowed(): bool
-    {
-        if ($this->state instanceof CreatedState) {
-            return true;
-        } else {
-            throw new ModificationNotALlowedException();
-        }
-    }
 
     /**
      * @throws ModificationNotAllowedException
@@ -101,4 +99,12 @@ abstract class Sprint
         }
     }
 
+    private function modifySprintAllowed(): bool
+    {
+        if ($this->state instanceof ReleaseCreatedState) {
+            return true;
+        } else {
+            throw new ModificationNotALlowedException();
+        }
+    }
 }

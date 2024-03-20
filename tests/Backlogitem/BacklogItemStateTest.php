@@ -68,4 +68,6 @@ class BacklogItemStateTest extends TestCase
         self::assertEquals($state->resetState(), new TodoState($manager));
     }
 
+
+
 }
