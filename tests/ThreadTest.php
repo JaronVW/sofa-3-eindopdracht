@@ -8,7 +8,8 @@ use App\Entity\Observer\NotificationManager;
 use App\Entity\Observer\UserRole;
 use App\Entity\Threads\Comment;
 use App\Entity\Threads\Thread;
-use App\Entity\User;
+use App\Entity\Users\Developer;
+use App\Entity\Users\User;
 use PHPUnit\Framework\TestCase;
 
 class ThreadTest extends TestCase
@@ -27,7 +28,7 @@ class ThreadTest extends TestCase
                 "Clean up the code",
                 "We need to clean up the code",
                 new NotificationManager(),
-                new User(UserRole::DEVELOPER)
+                new Developer()
             )
         );
         self::assertSame("Code cleanup", $thread->getTopic());
@@ -49,7 +50,7 @@ class ThreadTest extends TestCase
                 "Clean up the code",
                 "We need to clean up the code",
                 new NotificationManager(),
-                new User(UserRole::DEVELOPER)
+                new Developer()
             )
         );
         self::assertSame("We need to clean up the code", $thread->getContent());
@@ -71,10 +72,10 @@ class ThreadTest extends TestCase
                 "Clean up the code",
                 "We need to clean up the code",
                 new NotificationManager(),
-                new User(UserRole::DEVELOPER)
+                new Developer()
             )
         );
-        $thread->addComment(new Comment("I agree", new User(UserRole::DEVELOPER)));
+        $thread->addComment(new Comment("I agree", new Developer()));
         self::assertSame("I agree", $thread->getComments()[0]->content);
     }
 
@@ -88,7 +89,7 @@ class ThreadTest extends TestCase
             "Clean up the code",
             "We need to clean up the code",
             new NotificationManager(),
-            new User(UserRole::DEVELOPER)
+            new Developer()
         );
 
         for ($i = 0; $i < 5; $i++) {
@@ -114,7 +115,7 @@ class ThreadTest extends TestCase
             "Clean up the code",
             "We need to clean up the code",
             new NotificationManager(),
-            new User(UserRole::DEVELOPER)
+            new Developer()
         );
         $thread = new Thread(
             "Code cleanup",
@@ -140,7 +141,7 @@ class ThreadTest extends TestCase
             "Clean up the code",
             "We need to clean up the code",
             new NotificationManager(),
-            new User(UserRole::DEVELOPER)
+            new Developer()
         );
         $thread = new Thread(
             "Code cleanup",
@@ -153,6 +154,6 @@ class ThreadTest extends TestCase
         }
 
         self::expectException(ModificationNotAllowedException::class);
-        $thread->addComment(new Comment("I agree", new User(UserRole::DEVELOPER)));
+        $thread->addComment(new Comment("I agree", new Developer()));
     }
 }

@@ -8,7 +8,9 @@ use App\Entity\Observer\NotificationManager;
 use App\Entity\Observer\UserRole;
 use App\Entity\Sprint\SprintFactory;
 use App\Entity\Sprint\States\Release\ReleaseInProgressState;
-use App\Entity\User;
+use App\Entity\Users\Developer;
+use App\Entity\Users\ProductOwner;
+use App\Entity\Users\User;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +25,8 @@ class SprintTest extends TestCase
         $sprint = SprintFactory::createReleaseSprint(
             "Code cleanup",
             new DateTimeImmutable(),
-            new DateTimeImmutable()
+            new DateTimeImmutable(),
+            new ProductOwner()
         );
         self::assertSame("Code cleanup", $sprint->getName());
 
@@ -43,7 +46,8 @@ class SprintTest extends TestCase
         $sprint = SprintFactory::createReleaseSprint(
             "Code cleanup",
             $start,
-            new DateTimeImmutable()
+            new DateTimeImmutable(),
+            new ProductOwner()
         );
         self::assertSame($start, $sprint->getStartDate());
 
@@ -62,7 +66,8 @@ class SprintTest extends TestCase
         $sprint = SprintFactory::createReleaseSprint(
             "Code cleanup",
             new DateTimeImmutable(),
-            $end
+            $end,
+            new ProductOwner()
         );
         self::assertSame($end, $sprint->getEndDate());
 
@@ -79,7 +84,8 @@ class SprintTest extends TestCase
         $sprint = SprintFactory::createReleaseSprint(
             "Code cleanup",
             new DateTimeImmutable(),
-            new DateTimeImmutable()
+            new DateTimeImmutable(),
+            new ProductOwner()
         );
 
         $sprint->setState(new ReleaseInProgressState());
@@ -99,7 +105,8 @@ class SprintTest extends TestCase
         $sprint = SprintFactory::createReleaseSprint(
             "Code cleanup",
             $start,
-            new DateTimeImmutable()
+            new DateTimeImmutable(),
+            new ProductOwner()
         );
         $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
@@ -117,7 +124,8 @@ class SprintTest extends TestCase
         $sprint = SprintFactory::createReleaseSprint(
             "Code cleanup",
             new DateTimeImmutable(),
-            $end
+            $end,
+            new ProductOwner()
         );
         $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
@@ -134,12 +142,13 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
+            new ProductOwner()
         );
         $backlogitem = new BacklogItem(
             "Refactor variables",
             "Rename variables to make them more descriptive",
             new NotificationManager(),
-            new User(UserRole::DEVELOPER)
+            new Developer()
         );
         self::assertEquals([], $sprint->getBacklogItems());
         $sprint->addBacklogItem(
@@ -158,6 +167,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
+            new ProductOwner()
         );
 
         $sprint->setState(new ReleaseInProgressState());
@@ -168,7 +178,7 @@ class SprintTest extends TestCase
                 "Refactor variables",
                 "Rename variables to make them more descriptive",
                 new NotificationManager(),
-                new User(UserRole::DEVELOPER)
+                new Developer()
             )
         );
     }

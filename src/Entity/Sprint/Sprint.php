@@ -7,7 +7,9 @@ use App\Entity\BacklogItem\BacklogItem;
 use App\Entity\Exceptions\ModificationNotAllowedException;
 use App\Entity\Sprint\States\Release\ReleaseCreatedState;
 use App\Entity\Sprint\States\SprintState;
-use App\Entity\User;
+use App\Entity\Users\Developer;
+use App\Entity\Users\ProductOwner;
+use App\Entity\Users\ScrumMaster;
 use DateTimeImmutable;
 
 abstract class Sprint
@@ -16,6 +18,9 @@ abstract class Sprint
     private SprintState $state;
     private Backlog $backlog;
 
+    /**
+     * @var array<int, Developer>
+     */
     private array $developers = [];
 
 
@@ -23,8 +28,8 @@ abstract class Sprint
         private string            $name,
         private DateTimeImmutable $startDate,
         private DateTimeImmutable $endDate,
-        private User $scrumMaster,
-        private ?user $productOwner = null
+        private readonly ScrumMaster $scrumMaster,
+        private ?ProductOwner $productOwner = null
     )
     {
         $this->state = new ReleaseCreatedState();
@@ -106,5 +111,20 @@ abstract class Sprint
         } else {
             throw new ModificationNotALlowedException();
         }
+    }
+
+    public function getScrumMaster(): ScrumMaster
+    {
+        return $this->scrumMaster;
+    }
+
+    public function getProductOwner(): ?ProductOwner
+    {
+        return $this->productOwner;
+    }
+
+    public function setProductOwner(?ProductOwner $productOwner): void
+    {
+        $this->productOwner = $productOwner;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Entity\Threads;
 
-use App\Entity\User;
+use App\Entity\Users\User;
 
 class Comment
 {

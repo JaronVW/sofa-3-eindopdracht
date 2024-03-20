@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Users\User;
+
 class BacklogActivity
 {
     private bool $done = false;

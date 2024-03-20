@@ -8,7 +8,7 @@ use App\Entity\BacklogItem\States\TodoState;
 use App\Entity\Exceptions\ModificationNotAllowedException;
 use App\Entity\Exceptions\StateTransitionInvalidException;
 use App\Entity\Observer\NotificationManager;
-use App\Entity\User;
+use App\Entity\Users\User;
 
 class BacklogItem
 {

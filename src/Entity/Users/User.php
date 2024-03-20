@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Users;
 
 use App\Entity\Observer\UserRole;
 
-final readonly class User
+abstract class User
 {
     public function __construct(
-       public UserRole $role
     )
     {
     }
