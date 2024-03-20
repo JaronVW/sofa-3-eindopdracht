@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Backlogitem;
 
-use App\Entity\BacklogItem\Observer\BacklogItemNotificationManager;
 use App\Entity\BacklogItem\States\BacklogItemState;
 use App\Entity\BacklogItem\States\DoneState;
 use App\Entity\BacklogItem\States\TestedState;
 use App\Entity\BacklogItem\States\TodoState;
 use App\Entity\Exceptions\StateTransitionInvalidException;
+use App\Entity\Observer\NotificationManager;
 use PHPUnit\Framework\TestCase;
 
 class BacklogItemStateTest extends TestCase
 {
-    use statesDataTrait;
+    use StatesDateTrait;
 
     /**
      * @test
@@ -40,7 +40,7 @@ class BacklogItemStateTest extends TestCase
     {
         self::expectException(StateTransitionInvalidException::class);
 
-        $manager = new BacklogItemNotificationManager();
+        $manager = new NotificationManager();
         $state = new TodoState($manager);
         $state->regressState();
     }
@@ -52,7 +52,7 @@ class BacklogItemStateTest extends TestCase
     {
         self::expectException(StateTransitionInvalidException::class);
 
-        $manager = new BacklogItemNotificationManager();
+        $manager = new NotificationManager();
         $state = new DoneState($manager);
         $state->progressState();
     }
@@ -63,7 +63,7 @@ class BacklogItemStateTest extends TestCase
      */
     public function it_handles_reset_state_correctly()
     {
-        $manager = new BacklogItemNotificationManager();
+        $manager = new NotificationManager();
         $state = new TestedState($manager);
         self::assertEquals($state->resetState(), new TodoState($manager));
     }

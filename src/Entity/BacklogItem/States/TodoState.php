@@ -2,14 +2,14 @@
 
 namespace App\Entity\BacklogItem\States;
 
-use App\Entity\BacklogItem\Observer\BacklogItemNotificationManager;
 use App\Entity\Exceptions\StateTransitionInvalidException;
+use App\Entity\Observer\NotificationManager;
 
 class TodoState implements BacklogItemState
 {
 
     public function __construct(
-        private BacklogItemNotificationManager $notificationManager
+        private NotificationManager $notificationManager
     )
     {
     }

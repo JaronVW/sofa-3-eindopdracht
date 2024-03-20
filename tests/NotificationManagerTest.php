@@ -2,10 +2,10 @@
 
 namespace App\Tests;
 
-use App\Entity\BacklogItem\Observer\BacklogItemNotificationManager;
-use App\Entity\BacklogItem\Observer\SlackListenerAdapter;
-use App\Entity\BacklogItem\Observer\UserRole;
 use App\Entity\Libraries\SlackLibrary;
+use App\Entity\Observer\NotificationManager;
+use App\Entity\Observer\SlackListenerAdapter;
+use App\Entity\Observer\UserRole;
 use PHPUnit\Framework\TestCase;
 
 class NotificationManagerTest extends TestCase
@@ -16,7 +16,7 @@ class NotificationManagerTest extends TestCase
      */
     public function it_calls_listener_method()
     {
-        $manager = new BacklogItemNotificationManager();
+        $manager = new NotificationManager();
         $mockLibrary = $this->createMock(SlackLibrary::class);
         $mockLibrary->expects($this->once())->method('sendSlack');
 
@@ -30,7 +30,7 @@ class NotificationManagerTest extends TestCase
      */
     public function it_does_not_call_when_other_role_is_notified()
     {
-        $manager = new BacklogItemNotificationManager();
+        $manager = new NotificationManager();
         $mockLibrary = $this->createMock(SlackLibrary::class);
         $mockLibrary->expects($this->never())->method('sendSlack');
 
@@ -44,7 +44,7 @@ class NotificationManagerTest extends TestCase
      */
     public function it_does_not_call_unsubscribed_listener()
     {
-        $manager = new BacklogItemNotificationManager();
+        $manager = new NotificationManager();
         $mockLibrary = $this->createMock(SlackLibrary::class);
         $mockLibrary->expects($this->never())->method('sendSlack');
 

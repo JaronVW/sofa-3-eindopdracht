@@ -2,19 +2,19 @@
 
 namespace App\Tests\Backlogitem;
 
-use App\Entity\BacklogItem\Observer\BacklogItemNotificationManager;
 use App\Entity\BacklogItem\States\DoingState;
 use App\Entity\BacklogItem\States\DoneState;
 use App\Entity\BacklogItem\States\ReadyForTestingState;
 use App\Entity\BacklogItem\States\TestedState;
 use App\Entity\BacklogItem\States\TestingState;
 use App\Entity\BacklogItem\States\TodoState;
+use App\Entity\Observer\NotificationManager;
 
-trait statesDataTrait
+trait StatesDateTrait
 {
     public function progress_states_data_provider(): iterable
     {
-        $manager = new BacklogItemNotificationManager();
+        $manager = new NotificationManager();
         yield [
             new TodoState($manager),
             new DoingState($manager)
@@ -44,7 +44,7 @@ trait statesDataTrait
 
     public function regress_states_data_provider(): iterable
     {
-        $manager = new BacklogItemNotificationManager();
+        $manager = new NotificationManager();
         yield [
             new TestedState($manager),
             new TestingState($manager)

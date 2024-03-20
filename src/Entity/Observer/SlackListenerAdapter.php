@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\BacklogItem\Observer;
+namespace App\Entity\Observer;
 
 use App\Entity\Libraries\SlackLibrary;
 use App\Entity\NotificationListener;

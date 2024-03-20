@@ -2,13 +2,13 @@
 
 namespace App\Entity\BacklogItem\States;
 
-use App\Entity\BacklogItem\Observer\BacklogItemNotificationManager;
+use App\Entity\Observer\NotificationManager;
 
 class TestingState implements BacklogItemState
 {
 
     public function __construct(
-        private BacklogItemNotificationManager $notificationManager
+        private NotificationManager $notificationManager
     )
     {
     }

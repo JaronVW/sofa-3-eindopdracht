@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\BacklogItem\States\BacklogItem;
+use App\Entity\BacklogItem\BacklogItem;
 
 class Backlog
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity\BacklogItem\Observer;
+namespace App\Entity\Observer;
 
 use App\Entity\NotificationListener;
 
-class BacklogItemNotificationManager
+class NotificationManager
 {
     /**
      * @param array<int,array<UserRole,NotificationListener>> $listeners

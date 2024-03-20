@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Entity\BacklogItem\States;
+namespace App\Entity\BacklogItem;
 
 use App\Entity\BacklogActivity;
-use App\Entity\BacklogItem\Observer\BacklogItemNotificationManager;
-use App\Entity\BacklogItem\Observer\UserRole;
+use App\Entity\BacklogItem\States\BacklogItemState;
+use App\Entity\BacklogItem\States\TodoState;
+use App\Entity\Observer\NotificationManager;
 use App\Entity\User;
 
 class BacklogItem
@@ -18,10 +19,10 @@ class BacklogItem
     private array  $backlogActivities;
 
     public function __construct(
-        private string $title,
-        private string $description,
-        private BacklogItemNotificationManager $notificationManager,
-        private User $developer
+        public readonly string               $title,
+        public readonly string               $description,
+        private readonly NotificationManager $notificationManager,
+        private ?User                        $developer
     )
     {
         $this->state = new TodoState($this->notificationManager);
@@ -36,6 +37,16 @@ class BacklogItem
     public function addBacklogActivity(BacklogActivity $backlogActivity)
     {
         $this->backlogActivities[] = $backlogActivity;
+    }
+
+    public function getDeveloper(): ?User
+    {
+        return $this->developer;
+    }
+
+    public function setDeveloper(?User $developer): void
+    {
+        $this->developer = $developer;
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\BacklogItem\Observer;
+namespace App\Entity\Observer;
 
 enum UserRole: string
 {
