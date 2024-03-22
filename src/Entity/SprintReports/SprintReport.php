@@ -15,7 +15,8 @@ class SprintReport
     )
     {
         $doc = new DOMDocument();
-        $doc->loadHTML($this->header . $this->body . $this->footer);
+        echo '<!DOCTYPE html><html lang="en">' . $this->header . $this->body . $this->footer. '</html>';
+        $doc->loadHTML('<!DOCTYPE html><html lang="en">' . $this->header . $this->body . $this->footer. '</html>');
     }
 
     public  function exportHTML(): string

@@ -13,14 +13,16 @@ use DateTimeImmutable;
 class Project
 {
     /**
-     * @var array<int, Sprint>
+     * @var array<string, Sprint>
      */
     private array $sprints = [];
 
+    private Backlog $backlog;
+
     public function __construct(
-        private Backlog $backlog
     )
     {
+        $this->backlog = new Backlog();
     }
 
     public function createReleaseSprint(
@@ -32,7 +34,7 @@ class Project
     ): void
     {
         $sprint = SprintFactory::createReleaseSprint($name, $startDate, $endDate, $scrumMaster, $productOwner);
-        $this->sprints[] = $sprint;
+        $this->sprints[$name] = $sprint;
     }
 
     public function createPartialProductSprint(
@@ -44,7 +46,7 @@ class Project
     ): void
     {
         $sprint = SprintFactory::createPartialProductSprint($name, $startDate, $endDate, $scrumMaster, $productOwner);
-        $this->sprints[] = $sprint;
+        $this->sprints[$name] = $sprint;
     }
 
     public function addBacklogItem(BacklogItem $backlogItem): void
@@ -60,4 +62,18 @@ class Project
         $this->backlog->removeBacklogItem($backlogItem);
         $sprint->addBacklogItem($backlogItem);
     }
+
+    /**
+     * @return array<int, BacklogItem>
+     */
+    public function getBacklogItems(): array
+    {
+       return $this->backlog->getBacklogItems();
+    }
+
+    public function getSprint(string $name): Sprint
+    {
+        return $this->sprints[$name];
+    }
+
 }

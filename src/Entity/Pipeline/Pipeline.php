@@ -2,14 +2,69 @@
 
 namespace App\Entity\Pipeline;
 
-class Pipeline implements DevopsAction
+use App\Entity\Exceptions\PipelineFailedException;
+use Exception;
+
+class Pipeline
 {
+    private bool $pipeLineBusy = false;
+    private bool $pipeLineFailed = false;
+
+
     /**
-     * @param array<int,DevopsAction> $actions
+     * @var array<int,DevopsAction>
      */
-    public function __construct(
-        private DevopsAction $actions
-    )
+    private array $actions = [];
+
+    public function __construct()
     {
+    }
+
+    public function addAction(DevopsAction $action): void
+    {
+        $this->actions[] = $action;
+    }
+
+    /**
+     * @throws PipelineFailedException
+     */
+    public function execute(): void
+    {
+        $this->pipeLineFailed = false;
+        $this->pipeLineBusy = true;
+        // sleep 5 sec for testing purposes
+        sleep(5);
+        try {
+            foreach ($this->actions as $action) {
+                $action->execute();
+            }
+
+        } catch (Exception) {
+            $this->pipeLineFailed = true;
+            $this->pipeLineBusy = false;
+            throw new PipelineFailedException();
+        }
+
+        $this->pipeLineBusy = false;
+    }
+
+    public function isPipeLineBusy(): bool
+    {
+        return $this->pipeLineBusy;
+    }
+
+    public function setPipeLineBusy(bool $pipeLineBusy): void
+    {
+        $this->pipeLineBusy = $pipeLineBusy;
+    }
+
+    public function didPipeLineFail(): bool
+    {
+        return $this->pipeLineFailed;
+    }
+
+    public function setPipeLineFailed(bool $pipeLineFailed): void
+    {
+        $this->pipeLineFailed = $pipeLineFailed;
     }
 }

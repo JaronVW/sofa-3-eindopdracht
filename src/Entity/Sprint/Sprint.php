@@ -5,6 +5,8 @@ namespace App\Entity\Sprint;
 use App\Entity\Backlog;
 use App\Entity\BacklogItem\BacklogItem;
 use App\Entity\Exceptions\ModificationNotAllowedException;
+use App\Entity\Pipeline\Pipeline;
+use App\Entity\Sprint\States\PartialProduct\PartialProductCreatedState;
 use App\Entity\Sprint\States\Release\ReleaseCreatedState;
 use App\Entity\Sprint\States\SprintState;
 use App\Entity\SprintReports\ExportType;
@@ -17,40 +19,32 @@ use DateTimeImmutable;
 abstract class Sprint
 {
 
-    private SprintState $state;
-    private Backlog $backlog;
+    protected SprintState $state;
+    protected Backlog $backlog;
 
     /**
      * @var array<int, Developer>
      */
-    private array $developers = [];
+    protected array $developers = [];
+
+    protected Pipeline $pipeline;
 
 
     public function __construct(
-        private string               $name,
-        private DateTimeImmutable    $startDate,
-        private DateTimeImmutable    $endDate,
-        private readonly ScrumMaster $scrumMaster,
-        private ?ProductOwner        $productOwner = null
+        protected string               $name,
+        protected DateTimeImmutable    $startDate,
+        protected DateTimeImmutable    $endDate,
+        protected readonly ScrumMaster $scrumMaster,
+        protected ?ProductOwner        $productOwner = null
     )
     {
-        $this->state = new ReleaseCreatedState();
         $this->backlog = new Backlog();
+        $this->pipeline = new Pipeline();
     }
 
     /**
      * @throws ModificationNotAllowedException
      */
-
-    /**
-     * @throws ModificationNotAllowedException
-     */
-    public function addBacklogItem(BacklogItem $backlogItem): void
-    {
-        if ($this->modifySprintAllowed()) {
-            $this->backlog->addBacklogItem($backlogItem);
-        }
-    }
 
     /**
      * @return array<int,BacklogItem>
@@ -73,6 +67,21 @@ abstract class Sprint
     public function getEndDate(): DateTimeImmutable
     {
         return $this->endDate;
+    }
+
+
+    public function setPipeline(Pipeline $pipeline): void
+    {
+        if ($this->modifySprintAllowed()) {
+            $this->pipeline = $pipeline;
+        }
+    }
+
+    public function setProductOwner(?ProductOwner $productOwner): void
+    {
+        if ($this->modifySprintAllowed()) {
+            $this->productOwner = $productOwner;
+        }
     }
 
     public function setState(SprintState $state): void
@@ -110,9 +119,12 @@ abstract class Sprint
         }
     }
 
+    /**
+     * @throws ModificationNotAllowedException
+     */
     private function modifySprintAllowed(): bool
     {
-        if ($this->state instanceof ReleaseCreatedState) {
+        if (( $this->state instanceof ReleaseCreatedState || $this->state instanceof PartialProductCreatedState) || $this->pipeline->isPipeLineBusy()) {
             return true;
         } else {
             throw new ModificationNotALlowedException();
@@ -129,10 +141,6 @@ abstract class Sprint
         return $this->productOwner;
     }
 
-    public function setProductOwner(?ProductOwner $productOwner): void
-    {
-        $this->productOwner = $productOwner;
-    }
 
     public function export(ExportType $exportType, string $header, string $body, string $footer): string
     {
@@ -160,4 +168,24 @@ abstract class Sprint
         }
         return $developersPoints;
     }
+
+    /**
+     * @throws ModificationNotAllowedException
+     */
+    public function addBacklogItem(BacklogItem $backlogItem): void
+    {
+        if ($this->modifySprintAllowed()) {
+            $this->backlog->addBacklogItem($backlogItem);
+        }
+    }
+
+
+    public function getPipeline(): Pipeline
+    {
+        return $this->pipeline;
+    }
+
+    abstract public function progressSprint(): void;
+
+    abstract public function cancelSprint(): void;
 }

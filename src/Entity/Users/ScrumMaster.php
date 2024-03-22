@@ -11,4 +11,9 @@ class ScrumMaster extends User
     {
         parent::__construct();
     }
+
+    public function getRole(): UserRole
+    {
+        return $this->role;
+    }
 }

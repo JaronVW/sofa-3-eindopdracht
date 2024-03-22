@@ -30,7 +30,7 @@ class ThreadTest extends TestCase
                 "Clean up the code",
                 "We need to clean up the code",
                 new NotificationManager(),
-                new Developer(),
+                new Developer("Alice"),
                 new EffortPointCount(1)
             )
         );
@@ -54,7 +54,7 @@ class ThreadTest extends TestCase
                 "Clean up the code",
                 "We need to clean up the code",
                 new NotificationManager(),
-                new Developer(),
+                new Developer("Alice"),
                 new EffortPointCount(1)
             )
         );
@@ -78,11 +78,11 @@ class ThreadTest extends TestCase
                 "Clean up the code",
                 "We need to clean up the code",
                 new NotificationManager(),
-                new Developer(),
+                new Developer("Alice"),
                 new EffortPointCount(1)
             )
         );
-        $thread->addComment(new Comment("I agree", new Developer()));
+        $thread->addComment(new Comment("I agree", new Developer("Alice")));
         self::assertSame("I agree", $thread->getComments()[0]->content);
     }
 
@@ -97,7 +97,7 @@ class ThreadTest extends TestCase
             "Clean up the code",
             "We need to clean up the code",
             new NotificationManager(),
-            new Developer(),
+            new Developer("Alice"),
             new EffortPointCount(1)
         );
 
@@ -125,7 +125,7 @@ class ThreadTest extends TestCase
             "Clean up the code",
             "We need to clean up the code",
             new NotificationManager(),
-            new Developer(),
+            new Developer("Alice"),
             new EffortPointCount(1)
         );
         $thread = new Thread(
@@ -153,7 +153,7 @@ class ThreadTest extends TestCase
             "Clean up the code",
             "We need to clean up the code",
             new NotificationManager(),
-            new Developer(),
+            new Developer("Alice"),
             new EffortPointCount(1)
 
         );
@@ -168,6 +168,6 @@ class ThreadTest extends TestCase
         }
 
         self::expectException(ModificationNotAllowedException::class);
-        $thread->addComment(new Comment("I agree", new Developer()));
+        $thread->addComment(new Comment("I agree", new Developer("Alice")));
     }
 }

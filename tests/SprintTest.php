@@ -26,7 +26,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
-            new ScrumMaster()
+            new ScrumMaster("Bob")
         );
         self::assertSame("Code cleanup", $sprint->getName());
 
@@ -47,7 +47,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             $start,
             new DateTimeImmutable(),
-            new ScrumMaster()
+            new ScrumMaster("Bob")
         );
         self::assertSame($start, $sprint->getStartDate());
 
@@ -67,7 +67,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             $end,
-            new ScrumMaster()
+            new ScrumMaster("Bob")
         );
         self::assertSame($end, $sprint->getEndDate());
 
@@ -85,7 +85,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
-            new ScrumMaster()
+            new ScrumMaster("Bob")
         );
 
         $sprint->setState(new ReleaseInProgressState());
@@ -106,7 +106,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             $start,
             new DateTimeImmutable(),
-            new ScrumMaster()
+            new ScrumMaster("Bob")
         );
         $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
@@ -125,7 +125,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             $end,
-            new ScrumMaster()
+            new ScrumMaster("Bob")
         );
         $sprint->setState(new ReleaseInProgressState());
         self::expectException(ModificationNotAllowedException::class);
@@ -143,13 +143,13 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
-            new ScrumMaster()
+            new ScrumMaster("Bob")
         );
         $backlogitem = new BacklogItem(
             "Refactor variables",
             "Rename variables to make them more descriptive",
             new NotificationManager(),
-            new Developer(),
+            new Developer("Alice"),
             new EffortPointCount(1)
         );
         self::assertEquals([], $sprint->getBacklogItems());
@@ -170,7 +170,7 @@ class SprintTest extends TestCase
             "Code cleanup",
             new DateTimeImmutable(),
             new DateTimeImmutable(),
-            new ScrumMaster()
+            new ScrumMaster("Bob")
         );
 
         $sprint->setState(new ReleaseInProgressState());
@@ -181,7 +181,7 @@ class SprintTest extends TestCase
                 "Refactor variables",
                 "Rename variables to make them more descriptive",
                 new NotificationManager(),
-                new Developer(),
+                new Developer("Alice"),
                 new EffortPointCount(1)
             )
         );

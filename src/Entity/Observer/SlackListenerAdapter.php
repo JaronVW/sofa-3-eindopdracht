@@ -7,12 +7,14 @@ use App\Entity\NotificationListener;
 
 class SlackListenerAdapter implements NotificationListener
 {
+
+    private SlackLibrary $slackLibrary;
     public function __construct(
-        private SlackLibrary $slackLibrary,
         private string       $channel,
         private string       $topic,
     )
     {
+        $this->slackLibrary = new SlackLibrary();
     }
 
     public function sendNotification(string $message): void

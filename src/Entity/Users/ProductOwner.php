@@ -11,4 +11,9 @@ class ProductOwner extends User
     {
         parent::__construct();
     }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
 }

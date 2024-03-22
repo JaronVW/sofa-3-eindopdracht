@@ -2,12 +2,16 @@
 
 namespace App\Entity\Pipeline;
 
+use App\Entity\Exceptions\PipelineFailedException;
+
 class Category implements DevopsAction
 {
     /**
      * @param array<int,DevopsAction> $devopsActions
      */
-    public function __construct(private array $devopsActions)
+    private array $devopsActions = [];
+
+    public function __construct(string $name)
     {
     }
 
@@ -29,10 +33,12 @@ class Category implements DevopsAction
         return $this->devopsActions;
     }
 
+    /**
+     * @throws PipelineFailedException
+     */
     public function execute(): void
     {
         foreach ($this->devopsActions as $devopsAction) {
             $devopsAction->execute();
         }
     }
-}
