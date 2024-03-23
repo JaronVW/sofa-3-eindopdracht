@@ -42,3 +42,4 @@ class Category implements DevopsAction
             $devopsAction->execute();
         }
     }
+}

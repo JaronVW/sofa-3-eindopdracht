@@ -20,7 +20,7 @@ class Action implements DevopsAction
     public function execute(): string
     {
         // This is a dummy implementation of the execute method
-        if($this->name !== "failtest"){
+        if($this->name === "failtest"){
             throw new PipelineFailedException();
         }
         return $this->name;
