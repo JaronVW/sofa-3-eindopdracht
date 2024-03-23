@@ -10,16 +10,22 @@ use App\Domain\Exceptions\PipelineFailedException;
 use App\Domain\Observer\NotificationManager;
 use App\Domain\Pipeline\Pipeline;
 use App\Domain\Sprint\SprintFactory;
-use App\Domain\Sprint\States\Release\ReleaseCreatedState;
 use App\Domain\Sprint\States\Release\ReleaseFinishedState;
 use App\Domain\Sprint\States\Release\ReleaseInProgressState;
 use App\Domain\Users\Developer;
 use App\Domain\Users\ScrumMaster;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 
 class SprintTest extends TestCase
 {
+    use ProphecyTrait;
+
+    /** @var ObjectProphecy<Pipeline> */
+    private ObjectProphecy $pipeline;
+
     private NotificationManager $manager;
 
     protected function setUp(): void
@@ -218,9 +224,11 @@ class SprintTest extends TestCase
 
     /**
      * @test
+     * @throws PipelineFailedException
      */
-    public function it_fails_when_pipeline_fails()
+    public function it_fails_when_pipeline_fails_and_correctly_finishes_when_pipeline_retries_successfully()
     {
+
         $sprint = SprintFactory::createReleaseSprint(
             "Release new Authentication service",
             new DateTimeImmutable(),
@@ -228,16 +236,20 @@ class SprintTest extends TestCase
             new ScrumMaster("John")
         );
 
-        $pipelinebackup = new class extends Pipeline {
-            public function execute(): void
-            {
-                throw new PipelineFailedException();
-            }
-        };
+        $this->pipeline = $this->prophesize(Pipeline::class);
+        $sprint->setPipeline($this->pipeline->reveal());
 
-        $sprint->setPipeline($pipelinebackup);
+        $this->pipeline->execute()->willThrow(PipelineFailedException::class);
+
         $sprint->progressSprint();
         $sprint->progressSprint();
         self::assertInstanceOf(ReleaseInProgressState::class, $sprint->getState());
+
+        $this->pipeline->didPipeLineFail()->willReturn(true);
+        $this->pipeline->execute()->will(function (){});
+
+        $sprint->retryPipeline();
+        self::assertInstanceOf(ReleaseFinishedState::class, $sprint->getState());
+
     }
 }

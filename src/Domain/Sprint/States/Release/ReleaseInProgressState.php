@@ -23,10 +23,10 @@ class ReleaseInProgressState implements ReleaseSprintState
     public function progressSprint(NotificationManager $manager , Pipeline $pipeline): ReleaseSprintState
     {
         try {
-            dump("Executing pipeline");
             $this->pipeline->execute();
         } catch (PipelineFailedException $e) {
             $this->manager->notify(UserRole::SCRUM_MASTER, "Pipeline failed, retry running the pipeline");
+
             return $this;
         }
         return  new ReleaseFinishedState($this->manager);
@@ -43,8 +43,7 @@ class ReleaseInProgressState implements ReleaseSprintState
     public function retryPipeline(): ReleaseSprintState
     {
         if ($this->pipeline->didPipeLineFail()) {
-            $this->progressSprint();
-            return $this;
+            return $this->progressSprint($this->manager, $this->pipeline);
         }
         throw new PipelineRestartNotAllowedException("Pipeline did not fail");
     }
