@@ -27,7 +27,7 @@ class BacklogItemTest extends TestCase
             null,
             new EffortPointCount(1)
         );
-        $backlogItem->addBacklogActivity(new BacklogActivity('Style menu with css', null));
+        $backlogItem->addBacklogActivity(new BacklogActivity('Style menu with css','Style menu with css', null));
         self::expectException(ModificationNotAllowedException::class);
         $backlogItem->setDone();
     }
@@ -46,7 +46,7 @@ class BacklogItemTest extends TestCase
             null,
             new EffortPointCount(1)
         );
-        $backlogItem->addBacklogActivity(new BacklogActivity('Style menu with css', null));
+        $backlogItem->addBacklogActivity(new BacklogActivity('Style menu with css','Style menu with css', null));
         $backlogItem->getBacklogActivities()[0]->setDone();
         $backlogItem->setDone();
         self::assertTrue($backlogItem->isDone());

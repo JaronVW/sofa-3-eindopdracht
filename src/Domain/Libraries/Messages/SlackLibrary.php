@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Libraries;
+namespace App\Domain\Libraries\Messages;
 
 class SlackLibrary
 {

@@ -8,6 +8,7 @@ class BacklogActivity
 {
     private bool $done = false;
     public function __construct(
+        public readonly string $title,
         private string $description,
         private ?User $developer,
     )

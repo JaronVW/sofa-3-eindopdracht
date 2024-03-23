@@ -2,7 +2,7 @@
 
 namespace App\Domain\Observer;
 
-use App\Domain\Libraries\SlackLibrary;
+use App\Domain\Libraries\Messages\SlackLibrary;
 
 class SlackListenerAdapter implements NotificationListener
 {

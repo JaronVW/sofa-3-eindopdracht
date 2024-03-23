@@ -2,7 +2,7 @@
 
 namespace App\Domain\Observer;
 
-use App\Domain\Libraries\EmailLibrary;
+use App\Domain\Libraries\Messages\EmailLibrary;
 
 class EmailListenerAdapter implements NotificationListener
 {
