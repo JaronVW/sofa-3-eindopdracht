@@ -2,6 +2,8 @@
 
 namespace App\Domain\Sprint\States\PartialProduct;
 
+use App\Domain\Pipeline\Pipeline;
+
 class PartialProductCreatedState implements PartialProductSprintState
 {
 
@@ -19,4 +21,8 @@ class PartialProductCreatedState implements PartialProductSprintState
         return new PartialProductCancelledState();
     }
 
+    public function getPipeline(): Pipeline
+    {
+
+    }
 }

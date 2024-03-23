@@ -3,8 +3,7 @@
 namespace App\Domain\Sprint\States\PartialProduct;
 
 use App\Domain\Exceptions\ModificationNotAllowedException;
-use App\Domain\Sprint\PartialProductSprint;
-use App\Domain\Sprint\States\Release\ReleaseSprintState;
+use App\Domain\Pipeline\Pipeline;
 
 class PartialProductCancelledState implements PartialProductSprintState
 {
@@ -29,4 +28,8 @@ class PartialProductCancelledState implements PartialProductSprintState
         throw new ModificationNotAllowedException();
     }
 
+    public function getPipeline(): Pipeline
+    {
+        throw new ModificationNotAllowedException();
+    }
 }

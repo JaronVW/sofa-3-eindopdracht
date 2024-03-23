@@ -5,11 +5,14 @@ namespace App\Domain\Sprint\States\Release;
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Exceptions\PipelineRestartNotAllowedException;
 use App\Domain\Observer\NotificationManager;
+use App\Domain\Pipeline\Pipeline;
+use App\Domain\Sprint\States\PartialProduct\PartialProductSprintState;
 
 class ReleaseCreatedState implements ReleaseSprintState
 {
     private NotificationManager $manager;
-    public function __construct(NotificationManager $manager)
+
+    public function __construct(NotificationManager $manager, private readonly Pipeline $pipeline)
     {
         $this->manager = $manager;
     }
@@ -17,9 +20,9 @@ class ReleaseCreatedState implements ReleaseSprintState
     /**
      * @throws ModificationNotAllowedException
      */
-    public function progressSprint()
+    public function progressSprint(NotificationManager $manager, Pipeline $pipeline): ReleaseSprintState
     {
-        throw new ModificationNotAllowedException("Pipelines can't be started or restarted at this stage");
+        return new ReleaseInProgressState($this->manager, $this->pipeline);
     }
 
     public function cancelSprint(): ReleaseSprintState
@@ -34,4 +37,10 @@ class ReleaseCreatedState implements ReleaseSprintState
     {
         throw new PipelineRestartNotAllowedException("Pipelines can't be started or restarted at this stage");
     }
+
+    public function getPipeline(): Pipeline
+    {
+        throw new ModificationNotAllowedException('Pipeline is not available');
+    }
+
 }

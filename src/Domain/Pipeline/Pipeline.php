@@ -33,7 +33,7 @@ class Pipeline
         $this->pipeLineFailed = false;
         $this->pipeLineBusy = true;
         // sleep 5 sec for testing purposes
-        sleep(5);
+//        sleep(5);
         try {
             foreach ($this->actions as $action) {
                 $action->execute();

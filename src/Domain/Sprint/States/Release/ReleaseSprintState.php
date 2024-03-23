@@ -1,12 +1,18 @@
 <?php
 
 namespace App\Domain\Sprint\States\Release;
+use App\Domain\Observer\NotificationManager;
+use App\Domain\Pipeline\Pipeline;
 
-interface ReleaseSprintState
+
+interface ReleaseSprintState 
 {
-    public function progressSprint();
+    public function progressSprint(NotificationManager $manager, Pipeline $pipeline): ReleaseSprintState;
 
     public function cancelSprint();
 
     public function retryPipeline();
+
+
+    public function getPipeline(): Pipeline;
 }

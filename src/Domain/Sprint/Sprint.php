@@ -10,6 +10,7 @@ use App\Domain\Sprint\States\PartialProduct\PartialProductCreatedState;
 use App\Domain\Sprint\States\PartialProduct\PartialProductSprintState;
 use App\Domain\Sprint\States\Release\ReleaseCreatedState;
 use App\Domain\Sprint\States\Release\ReleaseSprintState;
+
 use App\Domain\SprintReports\ExportType;
 use App\Domain\SprintReports\SprintReport;
 use App\Domain\Users\Developer;
@@ -20,7 +21,6 @@ use DateTimeImmutable;
 abstract class Sprint
 {
 
-    protected ReleaseSprintState|PartialProductSprintState $state;
     protected Backlog $backlog;
 
 
@@ -72,12 +72,10 @@ abstract class Sprint
     }
 
 
-    public function setPipeline(Pipeline $pipeline): void
-    {
-        if ($this->modifySprintAllowed()) {
-            $this->pipeline = $pipeline;
-        }
-    }
+    /**
+     * @throws ModificationNotAllowedException
+     */
+    abstract public function setPipeline(Pipeline $pipeline): void;
 
     public function setProductOwner(?ProductOwner $productOwner): void
     {
@@ -86,10 +84,7 @@ abstract class Sprint
         }
     }
 
-    public function setState(ReleaseSprintState $state): void
-    {
-        $this->state = $state;
-    }
+    abstract public function setState(ReleaseSprintState|PartialProductSprintState $state): void;
 
     /**
      * @throws ModificationNotAllowedException
@@ -121,17 +116,6 @@ abstract class Sprint
         }
     }
 
-    /**
-     * @throws ModificationNotAllowedException
-     */
-    private function modifySprintAllowed(): bool
-    {
-        if (( $this->state instanceof ReleaseCreatedState || $this->state instanceof PartialProductCreatedState) || $this->pipeline->isPipeLineBusy()) {
-            return true;
-        } else {
-            throw new ModificationNotALlowedException();
-        }
-    }
 
     public function getScrumMaster(): ScrumMaster
     {
@@ -190,4 +174,10 @@ abstract class Sprint
     abstract public function progressSprint(): void;
 
     abstract public function cancelSprint(): void;
+
+    /**
+     * @throws ModificationNotAllowedException
+     */
+    abstract protected function modifySprintAllowed(): bool;
+
 }

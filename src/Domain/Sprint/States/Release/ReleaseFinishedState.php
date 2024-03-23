@@ -4,6 +4,7 @@ namespace App\Domain\Sprint\States\Release;
 
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Observer\NotificationManager;
+use App\Domain\Pipeline\Pipeline;
 use App\Domain\Users\UserRole;
 
 class ReleaseFinishedState implements ReleaseSprintState
@@ -19,7 +20,10 @@ class ReleaseFinishedState implements ReleaseSprintState
         }
 
 
-    public function progressSprint()
+    /**
+     * @throws ModificationNotAllowedException
+     */
+    public function progressSprint(NotificationManager $manager, Pipeline $pipeline): ReleaseSprintState
     {
         throw new ModificationNotAllowedException('Sprint is already finished');
     }
@@ -36,6 +40,11 @@ class ReleaseFinishedState implements ReleaseSprintState
      * @throws ModificationNotAllowedException
      */
     public function retryPipeline()
+    {
+        throw new ModificationNotAllowedException('Sprint is already finished');
+    }
+
+    public function getPipeline(): Pipeline
     {
         throw new ModificationNotAllowedException('Sprint is already finished');
     }

@@ -65,7 +65,16 @@ class PipelineTest extends TestCase
         $push->expects($this->once())->method('execute');
         $cat->add($push);
 
-        $fail = new Action("failtest");
+        $fail = new class("fail") extends Action {
+            public function __construct(string $name)
+            {
+                parent::__construct($name);
+            }
+            public function execute(): string
+            {
+                throw new PipelineFailedException();
+            }
+        };
         $cat->add($fail);
 
         $this->expectException(PipelineFailedException::class);

@@ -6,8 +6,12 @@ use App\Domain\Backlog\BacklogItem\BacklogItem;
 use App\Domain\Backlog\EffortPointCount;
 use App\Domain\Exceptions\InvalidEffortPointException;
 use App\Domain\Exceptions\ModificationNotAllowedException;
+use App\Domain\Exceptions\PipelineFailedException;
 use App\Domain\Observer\NotificationManager;
+use App\Domain\Pipeline\Pipeline;
 use App\Domain\Sprint\SprintFactory;
+use App\Domain\Sprint\States\Release\ReleaseCreatedState;
+use App\Domain\Sprint\States\Release\ReleaseFinishedState;
 use App\Domain\Sprint\States\Release\ReleaseInProgressState;
 use App\Domain\Users\Developer;
 use App\Domain\Users\ScrumMaster;
@@ -20,7 +24,7 @@ class SprintTest extends TestCase
 
     protected function setUp(): void
     {
-       $this->manager = new NotificationManager();
+        $this->manager = new NotificationManager();
     }
 
     /**
@@ -95,7 +99,7 @@ class SprintTest extends TestCase
             new ScrumMaster("Bob")
         );
 
-        $sprint->setState(new ReleaseInProgressState($this->manager));
+        $sprint->setState(new ReleaseInProgressState($this->manager, $this->createMock(Pipeline::class)));
         self::expectException(ModificationNotAllowedException::class);
         $sprint->setName("Refactoring");
     }
@@ -115,7 +119,7 @@ class SprintTest extends TestCase
             new DateTimeImmutable(),
             new ScrumMaster("Bob")
         );
-        $sprint->setState(new ReleaseInProgressState($this->manager));
+        $sprint->setState(new ReleaseInProgressState($this->manager, $this->createMock(Pipeline::class)));
         self::expectException(ModificationNotAllowedException::class);
         $sprint->setStartDate($newStart);
     }
@@ -134,7 +138,7 @@ class SprintTest extends TestCase
             $end,
             new ScrumMaster("Bob")
         );
-        $sprint->setState(new ReleaseInProgressState($this->manager));
+        $sprint->setState(new ReleaseInProgressState($this->manager, $this->createMock(Pipeline::class)));
         self::expectException(ModificationNotAllowedException::class);
         $sprint->setEndDate($newEnd);
     }
@@ -180,7 +184,7 @@ class SprintTest extends TestCase
             new ScrumMaster("Bob")
         );
 
-        $sprint->setState(new ReleaseInProgressState($this->manager));
+        $sprint->setState(new ReleaseInProgressState($this->manager, $this->createMock(Pipeline::class)));
         self::expectException(ModificationNotAllowedException::class);
 
         $sprint->addBacklogItem(
@@ -192,5 +196,54 @@ class SprintTest extends TestCase
                 new EffortPointCount(1)
             )
         );
+    }
+
+    /**
+     * @test
+     */
+    public function it_finishes_release_sprint_correctly(): void
+    {
+        $sprint = SprintFactory::createReleaseSprint(
+            "Release new Authentication service",
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            new ScrumMaster("John")
+        );
+
+        $sprint->setState(new ReleaseInProgressState($this->manager, $this->createMock(Pipeline::class)));
+        $sprint->progressSprint();
+        self::assertInstanceOf(ReleaseFinishedState::class, $sprint->getState());
+
+    }
+
+    /**
+     * @test
+     */
+    public function it_fails_when_pipeline_fails()
+    {
+        $sprint = SprintFactory::createReleaseSprint(
+            "Release new Authentication service",
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            new ScrumMaster("John")
+        );
+
+        $pipelinebackup = new class extends Pipeline {
+            public function execute(): void
+            {
+                throw new PipelineFailedException();
+            }
+        };
+
+        $pipelineMock = $this->createMock(Pipeline::class);
+        $pipelineMock->expects($this->once())->method('execute');
+
+        $sprint->setPipeline($pipelinebackup);
+        dump($sprint);
+        $sprint->progressSprint();
+        dump($sprint);
+        $sprint->progressSprint();
+//        dump($sprint->getState()::class);
+        self::assertInstanceOf(ReleaseInProgressState::class, $sprint->getState());
     }
 }

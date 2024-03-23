@@ -4,6 +4,7 @@ namespace App\Domain\Sprint\States\Release;
 
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Observer\NotificationManager;
+use App\Domain\Pipeline\Pipeline;
 use App\Domain\Users\UserRole;
 
 class ReleaseCancelledState implements ReleaseSprintState
@@ -17,7 +18,7 @@ class ReleaseCancelledState implements ReleaseSprintState
     /**
      * @throws ModificationNotAllowedException
      */
-    public function progressSprint()
+    public function progressSprint(NotificationManager $manager, Pipeline $pipeline): ReleaseSprintState
     {
         throw new ModificationNotAllowedException('Sprint is already cancelled');
     }
@@ -31,6 +32,11 @@ class ReleaseCancelledState implements ReleaseSprintState
     }
 
     public function retryPipeline()
+    {
+        throw new ModificationNotAllowedException('Sprint is already cancelled');
+    }
+
+    public function getPipeline(): Pipeline
     {
         throw new ModificationNotAllowedException('Sprint is already cancelled');
     }
