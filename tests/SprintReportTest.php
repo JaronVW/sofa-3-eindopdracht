@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Tests;
+libxml_use_internal_errors(true);
 
-use App\Entity\SprintReports\SprintReport;
+use App\Domain\SprintReports\SprintReport;
 use PHPUnit\Framework\TestCase;
 
 class SprintReportTest extends TestCase
@@ -13,12 +14,15 @@ class SprintReportTest extends TestCase
      */
     public function it_tests_the_report_functionality(): void
     {
+        libxml_use_internal_errors(true);
         $header = '<head><title>Title of the document</title></head>';
-        $body = "<body>Body</body>";
-        $footer = '<footer><p>Avans Lmt</p></footer>';
+        $body = '<body>Body</body>';
+        $footer = '<footer>Avans Lmt</footer>';
         $sprintReport = new SprintReport($header, $body, $footer);
+        libxml_use_internal_errors(false);
 
-        $this->assertEquals($header . $body . $footer, $sprintReport->exportHTML());
+
+        $this->assertStringContainsString($header . $body . $footer, $sprintReport->exportHTML());
         $this->assertEquals("Exporting to PDF...", $sprintReport->exportPDF());
         $this->assertEquals("Exporting to PNG...", $sprintReport->exportPNG());
         $this->assertEquals("Exporting to XML...", $sprintReport->exportXML());

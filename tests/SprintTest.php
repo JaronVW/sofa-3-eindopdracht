@@ -2,20 +2,27 @@
 
 namespace App\Tests;
 
-use App\Entity\BacklogItem\BacklogItem;
-use App\Entity\BacklogItem\EffortPointCount;
-use App\Entity\Exceptions\InvalidEffortPointException;
-use App\Entity\Exceptions\ModificationNotAllowedException;
-use App\Entity\Observer\NotificationManager;
-use App\Entity\Sprint\SprintFactory;
-use App\Entity\Sprint\States\Release\ReleaseInProgressState;
-use App\Entity\Users\Developer;
-use App\Entity\Users\ScrumMaster;
+use App\Domain\BacklogItem\EffortPointCount;
+use App\Domain\BacklogItem\BacklogItem;
+use App\Domain\Exceptions\InvalidEffortPointException;
+use App\Domain\Exceptions\ModificationNotAllowedException;
+use App\Domain\Observer\NotificationManager;
+use App\Domain\Sprint\SprintFactory;
+use App\Domain\Sprint\States\Release\ReleaseInProgressState;
+use App\Domain\Users\Developer;
+use App\Domain\Users\ScrumMaster;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class SprintTest extends TestCase
 {
+    private NotificationManager $manager;
+
+    protected function setUp(): void
+    {
+       $this->manager = new NotificationManager();
+    }
+
     /**
      * @test
      * @throws ModificationNotAllowedException
@@ -88,7 +95,7 @@ class SprintTest extends TestCase
             new ScrumMaster("Bob")
         );
 
-        $sprint->setState(new ReleaseInProgressState());
+        $sprint->setState(new ReleaseInProgressState($this->manager));
         self::expectException(ModificationNotAllowedException::class);
         $sprint->setName("Refactoring");
     }
@@ -108,7 +115,7 @@ class SprintTest extends TestCase
             new DateTimeImmutable(),
             new ScrumMaster("Bob")
         );
-        $sprint->setState(new ReleaseInProgressState());
+        $sprint->setState(new ReleaseInProgressState($this->manager));
         self::expectException(ModificationNotAllowedException::class);
         $sprint->setStartDate($newStart);
     }
@@ -127,7 +134,7 @@ class SprintTest extends TestCase
             $end,
             new ScrumMaster("Bob")
         );
-        $sprint->setState(new ReleaseInProgressState());
+        $sprint->setState(new ReleaseInProgressState($this->manager));
         self::expectException(ModificationNotAllowedException::class);
         $sprint->setEndDate($newEnd);
     }
@@ -173,7 +180,7 @@ class SprintTest extends TestCase
             new ScrumMaster("Bob")
         );
 
-        $sprint->setState(new ReleaseInProgressState());
+        $sprint->setState(new ReleaseInProgressState($this->manager));
         self::expectException(ModificationNotAllowedException::class);
 
         $sprint->addBacklogItem(

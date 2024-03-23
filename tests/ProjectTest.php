@@ -2,15 +2,13 @@
 
 namespace App\Tests;
 
-use App\Entity\Backlog;
-use App\Entity\BacklogItem\BacklogItem;
-use App\Entity\BacklogItem\EffortPointCount;
-use App\Entity\Exceptions\InvalidEffortPointException;
-use App\Entity\Exceptions\ModificationNotAllowedException;
-use App\Entity\Observer\NotificationManager;
-use App\Entity\Project;
-use App\Entity\Sprint\SprintFactory;
-use App\Entity\Users\ScrumMaster;
+use App\Domain\BacklogItem\EffortPointCount;
+use App\Domain\BacklogItem\BacklogItem;
+use App\Domain\Exceptions\InvalidEffortPointException;
+use App\Domain\Exceptions\ModificationNotAllowedException;
+use App\Domain\Observer\NotificationManager;
+use App\Domain\Project;
+use App\Domain\Users\ScrumMaster;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 

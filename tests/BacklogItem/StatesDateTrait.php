@@ -2,13 +2,13 @@
 
 namespace App\Tests\BacklogItem;
 
-use App\Entity\BacklogItem\States\DoingState;
-use App\Entity\BacklogItem\States\DoneState;
-use App\Entity\BacklogItem\States\ReadyForTestingState;
-use App\Entity\BacklogItem\States\TestedState;
-use App\Entity\BacklogItem\States\TestingState;
-use App\Entity\BacklogItem\States\TodoState;
-use App\Entity\Observer\NotificationManager;
+use App\Domain\BacklogItem\States\DoingState;
+use App\Domain\BacklogItem\States\DoneState;
+use App\Domain\BacklogItem\States\ReadyForTestingState;
+use App\Domain\BacklogItem\States\TestedState;
+use App\Domain\BacklogItem\States\TestingState;
+use App\Domain\BacklogItem\States\TodoState;
+use App\Domain\Observer\NotificationManager;
 
 trait StatesDateTrait
 {
@@ -28,6 +28,7 @@ trait StatesDateTrait
         yield [
             new ReadyForTestingState($manager),
             new TestingState($manager)
+
         ];
 
         yield [

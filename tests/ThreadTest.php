@@ -2,15 +2,15 @@
 
 namespace App\Tests;
 
-use App\Entity\BacklogItem\BacklogItem;
-use App\Entity\BacklogItem\EffortPointCount;
-use App\Entity\Exceptions\InvalidEffortPointException;
-use App\Entity\Exceptions\ModificationNotAllowedException;
-use App\Entity\Exceptions\StateTransitionInvalidException;
-use App\Entity\Observer\NotificationManager;
-use App\Entity\Threads\Comment;
-use App\Entity\Threads\Thread;
-use App\Entity\Users\Developer;
+use App\Domain\BacklogItem\EffortPointCount;
+use App\Domain\BacklogItem\BacklogItem;
+use App\Domain\Exceptions\InvalidEffortPointException;
+use App\Domain\Exceptions\ModificationNotAllowedException;
+use App\Domain\Exceptions\StateTransitionInvalidException;
+use App\Domain\Observer\NotificationManager;
+use App\Domain\Threads\Comment;
+use App\Domain\Threads\Thread;
+use App\Domain\Users\Developer;
 use PHPUnit\Framework\TestCase;
 
 class ThreadTest extends TestCase
