@@ -40,4 +40,9 @@ class ReleaseCancelledState implements ReleaseSprintState
     {
         throw new ModificationNotAllowedException('Sprint is already cancelled');
     }
+
+    public function setPipeline(Pipeline $pipeline): void
+    {
+        throw new ModificationNotAllowedException('Sprint is already cancelled');
+    }
 }

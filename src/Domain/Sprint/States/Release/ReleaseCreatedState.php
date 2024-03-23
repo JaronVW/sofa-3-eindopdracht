@@ -12,7 +12,7 @@ class ReleaseCreatedState implements ReleaseSprintState
 {
     private NotificationManager $manager;
 
-    public function __construct(NotificationManager $manager, private readonly Pipeline $pipeline)
+    public function __construct(NotificationManager $manager, private Pipeline $pipeline)
     {
         $this->manager = $manager;
     }
@@ -43,4 +43,8 @@ class ReleaseCreatedState implements ReleaseSprintState
         throw new ModificationNotAllowedException('Pipeline is not available');
     }
 
+    public function setPipeline(Pipeline $pipeline): void
+    {
+        $this->pipeline = $pipeline;
+    }
 }

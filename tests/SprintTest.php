@@ -235,15 +235,9 @@ class SprintTest extends TestCase
             }
         };
 
-        $pipelineMock = $this->createMock(Pipeline::class);
-        $pipelineMock->expects($this->once())->method('execute');
-
         $sprint->setPipeline($pipelinebackup);
-        dump($sprint);
         $sprint->progressSprint();
-        dump($sprint);
         $sprint->progressSprint();
-//        dump($sprint->getState()::class);
         self::assertInstanceOf(ReleaseInProgressState::class, $sprint->getState());
     }
 }

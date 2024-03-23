@@ -48,4 +48,9 @@ class ReleaseFinishedState implements ReleaseSprintState
     {
         throw new ModificationNotAllowedException('Sprint is already finished');
     }
+
+    public function setPipeline(Pipeline $pipeline): void
+    {
+        throw new ModificationNotAllowedException('Sprint is already finished');
+    }
 }

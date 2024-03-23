@@ -86,7 +86,7 @@ class ReleaseSprint extends Sprint
     public function setPipeline(Pipeline $pipeline): void
     {
         if ($this->modifySprintAllowed()) {
-            $this->state->get = $pipeline;
+            $this->state->setPipeline($pipeline);
         }
     }
 

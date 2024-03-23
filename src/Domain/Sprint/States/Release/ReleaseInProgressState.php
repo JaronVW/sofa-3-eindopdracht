@@ -2,6 +2,7 @@
 
 namespace App\Domain\Sprint\States\Release;
 
+use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Exceptions\PipelineFailedException;
 use App\Domain\Exceptions\PipelineRestartNotAllowedException;
 use App\Domain\Observer\NotificationManager;
@@ -51,5 +52,10 @@ class ReleaseInProgressState implements ReleaseSprintState
     public function getPipeline(): Pipeline
     {
         return $this->pipeline;
+    }
+
+    public function setPipeline(Pipeline $pipeline): void
+    {
+        throw new ModificationNotAllowedException('Pipeline can not be changed');
     }
 }

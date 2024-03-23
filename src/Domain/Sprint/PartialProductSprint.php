@@ -56,13 +56,4 @@ class PartialProductSprint extends Sprint
         $this->state = $state;
     }
 
-    /**
-     * @throws ModificationNotAllowedException
-     */
-    public function setPipeline(Pipeline $pipeline): void
-    {
-        if ($this->modifySprintAllowed()) {
-            $this->state->get = $pipeline;
-        }
-    }
 }

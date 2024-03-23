@@ -15,4 +15,6 @@ interface ReleaseSprintState
 
 
     public function getPipeline(): Pipeline;
+
+    public function setPipeline(Pipeline $pipeline): void;
 }

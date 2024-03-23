@@ -75,7 +75,6 @@ abstract class Sprint
     /**
      * @throws ModificationNotAllowedException
      */
-    abstract public function setPipeline(Pipeline $pipeline): void;
 
     public function setProductOwner(?ProductOwner $productOwner): void
     {
