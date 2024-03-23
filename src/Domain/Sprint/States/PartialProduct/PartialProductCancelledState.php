@@ -4,6 +4,7 @@ namespace App\Domain\Sprint\States\PartialProduct;
 
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Pipeline\Pipeline;
+use App\Domain\SprintReports\SprintReport;
 
 class PartialProductCancelledState implements PartialProductSprintState
 {
@@ -28,7 +29,18 @@ class PartialProductCancelledState implements PartialProductSprintState
         throw new ModificationNotAllowedException();
     }
 
-    public function getPipeline(): Pipeline
+    /**
+     * @throws ModificationNotAllowedException
+     */
+    public function getReport(): ?SprintReport
+    {
+        throw new ModificationNotAllowedException();
+    }
+
+    /**
+     * @throws ModificationNotAllowedException
+     */
+    public function setReport(SprintReport $report): void
     {
         throw new ModificationNotAllowedException();
     }

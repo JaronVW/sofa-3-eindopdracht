@@ -4,6 +4,7 @@ namespace App\Domain\Sprint\States\PartialProduct;
 
 
 use App\Domain\Pipeline\Pipeline;
+use App\Domain\SprintReports\SprintReport;
 
 interface PartialProductSprintState
 {
@@ -11,6 +12,8 @@ interface PartialProductSprintState
 
     public function cancelSprint(): PartialProductSprintState;
 
-    public function getPipeline(): Pipeline;
+    public function getReport(): ?SprintReport;
+
+    public function setReport(SprintReport $report): void;
 
 }

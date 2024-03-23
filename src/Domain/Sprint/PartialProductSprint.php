@@ -7,6 +7,7 @@ use App\Domain\Pipeline\Pipeline;
 use App\Domain\Sprint\States\PartialProduct\PartialProductCancelledState;
 use App\Domain\Sprint\States\PartialProduct\PartialProductCreatedState;
 use App\Domain\Sprint\States\PartialProduct\PartialProductFinishedState;
+use App\Domain\Sprint\States\PartialProduct\PartialProductInProgressState;
 use App\Domain\Sprint\States\PartialProduct\PartialProductSprintState;
 use App\Domain\Sprint\States\Release\ReleaseCreatedState;
 use App\Domain\Sprint\States\Release\ReleaseSprintState;
@@ -25,7 +26,7 @@ class PartialProductSprint extends Sprint
 
     public function progressSprint(): void
     {
-        $this->state = new PartialProductFinishedState();
+        $this->state = $this->state->progressSprint();
     }
 
     public function cancelSprint(): void

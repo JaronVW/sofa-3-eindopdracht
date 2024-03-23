@@ -6,7 +6,7 @@ class SlackLibrary
 {
     public function sendSlack(string $message): string
     {
-        echo "Sent slack";
+        echo "Sent slack\n";
         return "Sent slack";
     }
 }

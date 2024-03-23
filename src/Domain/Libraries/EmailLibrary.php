@@ -8,7 +8,7 @@ class EmailLibrary
 
     public function sendEmail(string $message): string
     {
-        echo "Sent slack";
+        echo "Sent Email \n";
         return "Sent email";
     }
 }

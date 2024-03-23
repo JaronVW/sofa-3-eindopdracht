@@ -26,9 +26,10 @@ class ReleaseInProgressState implements ReleaseSprintState
             $this->pipeline->execute();
         } catch (PipelineFailedException $e) {
             $this->manager->notify(UserRole::SCRUM_MASTER, "Pipeline failed, retry running the pipeline");
-
+            echo "Pipeline failed\n";
             return $this;
         }
+        echo "Pipeline finished\n";
         return  new ReleaseFinishedState($this->manager);
     }
 

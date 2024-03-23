@@ -11,15 +11,18 @@ class PartialProductInProgressState implements PartialProductSprintState
 {
     private ?SprintReport $report;
 
-    /**
-     * @throws ModificationNotAllowedException
-     */
+    public function __construct()
+    {
+        $this->report = null;
+    }
+
     public function progressSprint(): PartialProductSprintState
     {
-        if ($this->report !== null){
+        if ($this->report !== null) {
             return new PartialProductFinishedState();
         }
-        throw new ModificationNotAllowedException("Sprint report not handed in");
+        echo "Sprint report not handed in\n";
+        return $this;
     }
 
     public function cancelSprint(): PartialProductSprintState
@@ -32,7 +35,7 @@ class PartialProductInProgressState implements PartialProductSprintState
         return $this->report;
     }
 
-    public function setReport(?SprintReport $report): void
+    public function setReport(SprintReport $report): void
     {
         $this->report = $report;
     }

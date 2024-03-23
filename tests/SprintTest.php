@@ -10,8 +10,11 @@ use App\Domain\Exceptions\PipelineFailedException;
 use App\Domain\Observer\NotificationManager;
 use App\Domain\Pipeline\Pipeline;
 use App\Domain\Sprint\SprintFactory;
+use App\Domain\Sprint\States\PartialProduct\PartialProductFinishedState;
+use App\Domain\Sprint\States\PartialProduct\PartialProductInProgressState;
 use App\Domain\Sprint\States\Release\ReleaseFinishedState;
 use App\Domain\Sprint\States\Release\ReleaseInProgressState;
+use App\Domain\SprintReports\SprintReport;
 use App\Domain\Users\Developer;
 use App\Domain\Users\ScrumMaster;
 use DateTimeImmutable;
@@ -222,6 +225,32 @@ class SprintTest extends TestCase
 
     }
 
+
+    /**
+     * @test
+     * @throws ModificationNotAllowedException
+     */
+    public function it_fails_when_pipeline_fails(): void
+    {
+
+        $sprint = SprintFactory::createReleaseSprint(
+            "Release new Authentication service",
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            new ScrumMaster("John")
+        );
+
+        $this->pipeline = $this->prophesize(Pipeline::class);
+        $sprint->setPipeline($this->pipeline->reveal());
+
+        $this->pipeline->execute()->willThrow(PipelineFailedException::class);
+
+        $sprint->progressSprint();
+        $sprint->progressSprint();
+        self::assertInstanceOf(ReleaseInProgressState::class, $sprint->getState());
+
+    }
+
     /**
      * @test
      * @throws PipelineFailedException
@@ -246,10 +275,63 @@ class SprintTest extends TestCase
         self::assertInstanceOf(ReleaseInProgressState::class, $sprint->getState());
 
         $this->pipeline->didPipeLineFail()->willReturn(true);
-        $this->pipeline->execute()->will(function (){});
+        $this->pipeline->execute()->will(function () {
+        });
 
         $sprint->retryPipeline();
         self::assertInstanceOf(ReleaseFinishedState::class, $sprint->getState());
 
     }
+
+    /**
+     * @test
+     */
+    public function it_fails_when_partial_product_has_no_report_generated()
+    {
+        $sprint = SprintFactory::createPartialProductSPrint(
+            "Release new Authentication service",
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            new ScrumMaster("John")
+        );
+
+        $this->pipeline = $this->prophesize(Pipeline::class);
+
+        $sprint->progressSprint();
+        $sprint->progressSprint();
+        self::assertInstanceOf(PartialProductInProgressState::class, $sprint->getState());
+    }
+
+    /**
+     * @test
+     */
+    public function it_fails_when_partial_product_has_no_report_generated_and_retries_successfully_after_adding_report()
+    {
+        $sprint = SprintFactory::createPartialProductSPrint(
+            "Release new Authentication service",
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            new ScrumMaster("John")
+        );
+
+        $this->pipeline = $this->prophesize(Pipeline::class);
+
+        $sprint->progressSprint();
+
+        $sprint->progressSprint();
+        self::assertInstanceOf(PartialProductInProgressState::class, $sprint->getState());
+
+        $sprint->getState()->setReport(
+            new SprintReport(
+                '<head><title>Title of the document</title></head>',
+                '<body>Body</body>',
+                ''
+            )
+        );
+
+        $sprint->progressSprint();
+        self::assertInstanceOf(PartialProductFinishedState::class, $sprint->getState());
+
+    }
+
 }
