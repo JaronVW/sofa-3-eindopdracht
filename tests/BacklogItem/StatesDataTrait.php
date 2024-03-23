@@ -10,7 +10,7 @@ use App\Domain\Backlog\States\TestingState;
 use App\Domain\Backlog\States\TodoState;
 use App\Domain\Observer\NotificationManager;
 
-trait StatesDateTrait
+trait StatesDataTrait
 {
     public function progress_states_data_provider(): iterable
     {

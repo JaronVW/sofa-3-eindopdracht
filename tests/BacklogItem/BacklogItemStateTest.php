@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class BacklogItemStateTest extends TestCase
 {
-    use StatesDateTrait;
+    use StatesDataTrait;
 
     /**
      * @test

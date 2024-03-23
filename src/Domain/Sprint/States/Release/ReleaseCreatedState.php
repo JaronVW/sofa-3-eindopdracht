@@ -41,7 +41,7 @@ class ReleaseCreatedState implements ReleaseSprintState
 
     public function getPipeline(): Pipeline
     {
-        throw new PipelineRestartNotAllowedException(self::ERROR);
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 
     public function setPipeline(Pipeline $pipeline): void

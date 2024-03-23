@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Sprint;
 
 use App\Domain\Backlog\BacklogItem\BacklogItem;
 use App\Domain\Backlog\EffortPointCount;
