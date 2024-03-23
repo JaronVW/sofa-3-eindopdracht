@@ -2,7 +2,6 @@
 
 namespace App\Domain\Observer;
 
-use App\Domain\NotificationListener;
 use App\Domain\Users\UserRole;
 
 class NotificationManager

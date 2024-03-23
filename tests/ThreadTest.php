@@ -2,8 +2,8 @@
 
 namespace App\Tests;
 
-use App\Domain\BacklogItem\EffortPointCount;
-use App\Domain\BacklogItem\BacklogItem;
+use App\Domain\Backlog\BacklogItem\BacklogItem;
+use App\Domain\Backlog\EffortPointCount;
 use App\Domain\Exceptions\InvalidEffortPointException;
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Exceptions\StateTransitionInvalidException;

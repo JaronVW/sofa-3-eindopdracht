@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\BacklogItem;
+namespace App\Domain\Backlog\BacklogItem;
 
-use App\Domain\BacklogItem\EffortPointCount;
-use App\Domain\BacklogActivity;
-use App\Domain\BacklogItem\States\BacklogItemState;
-use App\Domain\BacklogItem\States\TodoState;
+use App\Domain\Backlog\BacklogActivity;
+use App\Domain\Backlog\EffortPointCount;
+use App\Domain\Backlog\States\BacklogItemState;
+use App\Domain\Backlog\States\TodoState;
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Exceptions\StateTransitionInvalidException;
 use App\Domain\Observer\NotificationManager;

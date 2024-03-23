@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Domain\BacklogItem\States;
+namespace App\Domain\Backlog\States;
 
 use App\Domain\Observer\NotificationManager;
 use App\Domain\Users\UserRole;
 
-final readonly class ReadyForTestingState implements BacklogItemState
+class DoingState implements BacklogItemState
 {
 
     public function __construct(
-        private NotificationManager $notificationManager
+        private readonly NotificationManager $notificationManager
     )
     {
-        $this->notificationManager->notify(UserRole::TESTER, "READY FOR TESTING");
     }
 
     public function progressState(): BacklogItemState
     {
-        return new TestingState($this->notificationManager);
+        return new ReadyForTestingState($this->notificationManager);
     }
 
     public function regressState(): BacklogItemState
     {
+        $this->notificationManager->notify(UserRole::SCRUM_MASTER, "A user moved backlogitem back to todo");
         return new TodoState($this->notificationManager);
     }
 }

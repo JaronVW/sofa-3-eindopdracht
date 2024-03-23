@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Tests\BacklogItem;
 
-use App\Domain\BacklogItem\States\BacklogItemState;
-use App\Domain\BacklogItem\States\DoneState;
-use App\Domain\BacklogItem\States\TestedState;
-use App\Domain\BacklogItem\States\TodoState;
+use App\Domain\Backlog\States\BacklogItemState;
+use App\Domain\Backlog\States\DoneState;
+use App\Domain\Backlog\States\TestedState;
+use App\Domain\Backlog\States\TodoState;
 use App\Domain\Exceptions\StateTransitionInvalidException;
 use App\Domain\Observer\NotificationManager;
 use PHPUnit\Framework\TestCase;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain;
+namespace App\Domain\Observer;
 
-use App\Domain\BacklogItem\Observer\Notification;
+use App\Domain\Backlog\Observer\Notification;
 
 interface NotificationListener
 {

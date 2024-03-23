@@ -2,12 +2,12 @@
 
 namespace App\Tests\BacklogItem;
 
-use App\Domain\BacklogItem\States\DoingState;
-use App\Domain\BacklogItem\States\DoneState;
-use App\Domain\BacklogItem\States\ReadyForTestingState;
-use App\Domain\BacklogItem\States\TestedState;
-use App\Domain\BacklogItem\States\TestingState;
-use App\Domain\BacklogItem\States\TodoState;
+use App\Domain\Backlog\States\DoingState;
+use App\Domain\Backlog\States\DoneState;
+use App\Domain\Backlog\States\ReadyForTestingState;
+use App\Domain\Backlog\States\TestedState;
+use App\Domain\Backlog\States\TestingState;
+use App\Domain\Backlog\States\TodoState;
 use App\Domain\Observer\NotificationManager;
 
 trait StatesDateTrait

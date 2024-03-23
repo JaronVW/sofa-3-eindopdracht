@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain;
+namespace App\Domain\Backlog;
 
 use App\Domain\Users\User;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\BacklogItem;
+namespace App\Domain\Backlog;
 
 use App\Domain\Exceptions\InvalidEffortPointException;
 

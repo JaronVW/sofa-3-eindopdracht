@@ -2,8 +2,8 @@
 
 namespace App\Domain\Sprint;
 
-use App\Domain\Backlog;
-use App\Domain\BacklogItem\BacklogItem;
+use App\Domain\Backlog\Backlog;
+use App\Domain\Backlog\BacklogItem\BacklogItem;
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Pipeline\Pipeline;
 use App\Domain\Sprint\States\PartialProduct\PartialProductCreatedState;
@@ -49,7 +49,7 @@ abstract class Sprint
      */
 
     /**
-     * @return array<int,BacklogItem>
+     * @return array<int,\App\Domain\Backlog\BacklogItem\BacklogItem>
      */
     public function getBacklogItems(): array
     {

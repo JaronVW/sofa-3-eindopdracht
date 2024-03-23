@@ -2,11 +2,9 @@
 
 namespace App\Domain\Threads;
 
-use App\Domain\BacklogItem\BacklogItem;
-use App\Domain\BacklogItem\States\DoneState;
+use App\Domain\Backlog\BacklogItem\BacklogItem;
+use App\Domain\Backlog\States\DoneState;
 use App\Domain\Exceptions\ModificationNotAllowedException;
-use App\Domain\Sprint\States\Release\ReleaseCreatedState;
-use App\Domain\Sprint\States\Release\ReleaseFinishedState;
 
 class Thread
 {

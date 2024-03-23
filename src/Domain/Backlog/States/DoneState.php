@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\BacklogItem\States;
+namespace App\Domain\Backlog\States;
 
 use App\Domain\Exceptions\StateTransitionInvalidException;
 use App\Domain\Observer\NotificationManager;

@@ -2,10 +2,8 @@
 
 namespace App\Tests;
 
-use App\Domain\Libraries\SlackLibrary;
-use App\Domain\NotificationListener;
+use App\Domain\Observer\NotificationListener;
 use App\Domain\Observer\NotificationManager;
-use App\Domain\Observer\SlackListenerAdapter;
 use App\Domain\Users\UserRole;
 use PHPUnit\Framework\TestCase;
 

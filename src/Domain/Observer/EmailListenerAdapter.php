@@ -3,7 +3,6 @@
 namespace App\Domain\Observer;
 
 use App\Domain\Libraries\EmailLibrary;
-use App\Domain\NotificationListener;
 
 class EmailListenerAdapter implements NotificationListener
 {

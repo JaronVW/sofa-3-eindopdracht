@@ -2,7 +2,8 @@
 
 namespace App\Domain;
 
-use App\Domain\BacklogItem\BacklogItem;
+use App\Domain\Backlog\Backlog;
+use App\Domain\Backlog\BacklogItem\BacklogItem;
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Sprint\Sprint;
 use App\Domain\Sprint\SprintFactory;
@@ -64,7 +65,7 @@ class Project
     }
 
     /**
-     * @return array<int, BacklogItem>
+     * @return array<int, \App\Domain\Backlog\BacklogItem\BacklogItem>
      */
     public function getBacklogItems(): array
     {

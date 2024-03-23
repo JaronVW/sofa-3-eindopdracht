@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain;
+namespace App\Domain\Backlog;
 
-use App\Domain\BacklogItem\BacklogItem;
+use App\Domain\Backlog\BacklogItem\BacklogItem;
 
 class Backlog
 {
