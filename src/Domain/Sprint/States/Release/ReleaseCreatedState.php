@@ -10,6 +10,7 @@ use App\Domain\Sprint\States\PartialProduct\PartialProductSprintState;
 
 class ReleaseCreatedState implements ReleaseSprintState
 {
+    const string ERROR = "Pipelines can't be started or restarted at this stage";
     private NotificationManager $manager;
 
     public function __construct(NotificationManager $manager, private Pipeline $pipeline)
@@ -35,12 +36,12 @@ class ReleaseCreatedState implements ReleaseSprintState
      */
     public function retryPipeline()
     {
-        throw new PipelineRestartNotAllowedException("Pipelines can't be started or restarted at this stage");
+        throw new PipelineRestartNotAllowedException(self::ERROR);
     }
 
     public function getPipeline(): Pipeline
     {
-        throw new ModificationNotAllowedException('Pipeline is not available');
+        throw new PipelineRestartNotAllowedException(self::ERROR);
     }
 
     public function setPipeline(Pipeline $pipeline): void

@@ -9,6 +9,9 @@ use App\Domain\Users\UserRole;
 
 class ReleaseCancelledState implements ReleaseSprintState
 {
+
+    const string ERROR = 'Sprint is already cancelled';
+
     public function __construct(private NotificationManager $notificationManager)
     {
         $this->notificationManager->notify(UserRole::SCRUM_MASTER,"Sprint is cancelled");
@@ -28,21 +31,30 @@ class ReleaseCancelledState implements ReleaseSprintState
      */
     public function cancelSprint()
     {
-        throw new ModificationNotAllowedException('Sprint is already cancelled');
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 
+    /**
+     * @throws ModificationNotAllowedException
+     */
     public function retryPipeline()
     {
-        throw new ModificationNotAllowedException('Sprint is already cancelled');
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 
+    /**
+     * @throws ModificationNotAllowedException
+     */
     public function getPipeline(): Pipeline
     {
-        throw new ModificationNotAllowedException('Sprint is already cancelled');
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 
+    /**
+     * @throws ModificationNotAllowedException
+     */
     public function setPipeline(Pipeline $pipeline): void
     {
-        throw new ModificationNotAllowedException('Sprint is already cancelled');
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 }

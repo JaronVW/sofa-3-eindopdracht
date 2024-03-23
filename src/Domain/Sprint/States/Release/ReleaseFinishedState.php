@@ -10,6 +10,7 @@ use App\Domain\Users\UserRole;
 class ReleaseFinishedState implements ReleaseSprintState
 {
 
+        const string ERROR = 'Sprint is already finished';
         public function __construct(
             private readonly NotificationManager $notificationManager
         )
@@ -25,7 +26,7 @@ class ReleaseFinishedState implements ReleaseSprintState
      */
     public function progressSprint(NotificationManager $manager, Pipeline $pipeline): ReleaseSprintState
     {
-        throw new ModificationNotAllowedException('Sprint is already finished');
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 
     /**
@@ -33,7 +34,7 @@ class ReleaseFinishedState implements ReleaseSprintState
      */
     public function cancelSprint()
     {
-        throw new ModificationNotAllowedException('Sprint is already finished');
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 
     /**
@@ -41,16 +42,16 @@ class ReleaseFinishedState implements ReleaseSprintState
      */
     public function retryPipeline()
     {
-        throw new ModificationNotAllowedException('Sprint is already finished');
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 
     public function getPipeline(): Pipeline
     {
-        throw new ModificationNotAllowedException('Sprint is already finished');
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 
     public function setPipeline(Pipeline $pipeline): void
     {
-        throw new ModificationNotAllowedException('Sprint is already finished');
+        throw new ModificationNotAllowedException(self::ERROR);
     }
 }
