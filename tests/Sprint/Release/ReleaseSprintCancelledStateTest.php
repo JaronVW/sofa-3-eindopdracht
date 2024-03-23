@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Sprint;
+namespace App\Tests\Sprint\Release;
 
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Observer\NotificationManager;

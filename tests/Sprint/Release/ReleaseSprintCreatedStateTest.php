@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Tests\Sprint;
+namespace App\Tests\Sprint\Release;
 
 use App\Domain\Exceptions\ModificationNotAllowedException;
 use App\Domain\Exceptions\PipelineRestartNotAllowedException;
 use App\Domain\Observer\NotificationManager;
 use App\Domain\Pipeline\Pipeline;
 use App\Domain\Sprint\States\Release\ReleaseCancelledState;
-use App\Domain\Sprint\States\Release\ReleaseFinishedState;
+use App\Domain\Sprint\States\Release\ReleaseCreatedState;
 use App\Domain\Sprint\States\Release\ReleaseInProgressState;
 use PHPUnit\Framework\TestCase;
 
-class ReleaseSprintInProgressStateTest extends TestCase
+class ReleaseSprintCreatedStateTest extends TestCase
 {
     private NotificationManager $manager;
     private Pipeline $pipeline;
@@ -24,13 +24,14 @@ class ReleaseSprintInProgressStateTest extends TestCase
 
     /**
      * @test
+     * @throws ModificationNotAllowedException
      */
-    public function progressSprint_moves_to_in_finished_state()
+    public function progressSprint_moves_to_in_progress_state()
     {
-        $state = new ReleaseInProgressState($this->manager, $this->pipeline);
+        $state = new ReleaseCreatedState($this->manager, $this->pipeline);
 
         $state = $state->progressSprint($this->manager, $this->pipeline);
-        self::assertInstanceOf(ReleaseFinishedState::class, $state);
+        self::assertInstanceOf(ReleaseInProgressState::class, $state);
 
     }
 
@@ -39,7 +40,7 @@ class ReleaseSprintInProgressStateTest extends TestCase
      */
     public function cancelSprint_moves_to_cancel_state()
     {
-        $state = new ReleaseInProgressState($this->manager, $this->pipeline);
+        $state = new ReleaseCreatedState($this->manager, $this->pipeline);
 
         $state = $state->cancelSprint();
         self::assertInstanceOf(ReleaseCancelledState::class, $state);
@@ -47,11 +48,10 @@ class ReleaseSprintInProgressStateTest extends TestCase
 
     /**
      * @test
-     * @throws PipelineRestartNotAllowedException
      */
     public function retryPipeline_throws_exception()
     {
-        $state = new ReleaseInProgressState($this->manager, $this->pipeline);
+        $state = new ReleaseCreatedState($this->manager, $this->pipeline);
 
         self::expectException(PipelineRestartNotAllowedException::class);
         $state->retryPipeline();
@@ -60,13 +60,12 @@ class ReleaseSprintInProgressStateTest extends TestCase
     /**
      * @test
      */
-    public function setPipeline_throws_exception()
+    public function getPipeline_throws_exception()
     {
-        $state = new ReleaseInProgressState($this->manager, $this->pipeline);
+        $state = new ReleaseCreatedState($this->manager, $this->pipeline);
 
         self::expectException(ModificationNotAllowedException::class);
-        $state->setPipeline($this->pipeline);
+        $state->getPipeline();
     }
-
 
 }

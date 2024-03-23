@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Tests\Sprint;
+namespace App\Tests\Sprint\Release;
 
 use App\Domain\Exceptions\ModificationNotAllowedException;
-use App\Domain\Exceptions\PipelineRestartNotAllowedException;
 use App\Domain\Observer\NotificationManager;
 use App\Domain\Pipeline\Pipeline;
-use App\Domain\Sprint\States\Release\ReleaseCancelledState;
 use App\Domain\Sprint\States\Release\ReleaseFinishedState;
-use App\Domain\Sprint\States\Release\ReleaseInProgressState;
 use PHPUnit\Framework\TestCase;
 
 class ReleaseFinishedStateTest extends TestCase
