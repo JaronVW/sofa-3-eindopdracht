@@ -4,10 +4,9 @@ namespace App\Domain\Users;
 
 class ScrumMaster extends User
 {
-    private UserRole $role = UserRole::SCRUM_MASTER;
     public function __construct(public readonly string $name)
     {
-        parent::__construct();
+        parent::__construct(UserRole::SCRUM_MASTER);
     }
 
     public function getRole(): UserRole
