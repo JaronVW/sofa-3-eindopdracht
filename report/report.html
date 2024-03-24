@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Test Documentation</title>
+        <style>
+            body {
+                text-rendering: optimizeLegibility;
+                font-family: Source SansSerif Pro, Arial, sans-serif;
+                font-variant-ligatures: common-ligatures;
+                font-kerning: normal;
+                margin-left: 2rem;
+                background-color: #fff;
+                color: #000;
+            }
+
+            body > ul > li {
+                font-size: larger;
+            }
+
+            h2 {
+                font-size: larger;
+                text-decoration-line: underline;
+                text-decoration-thickness: 2px;
+                margin: 0;
+                padding: 0.5rem 0;
+            }
+
+            ul {
+                list-style: none;
+                margin: 0 0 2rem;
+                padding: 0 0 0 1rem;
+                text-indent: -1rem;
+            }
+
+            .success:before {
+                color: #4e9a06;
+                content: '✓';
+                padding-right: 0.5rem;
+            }
+
+            .defect {
+                color: #a40000;
+            }
+
+            .defect:before {
+                color: #a40000;
+                content: '✗';
+                padding-right: 0.5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Backlog Item State (App\Tests\BacklogItem\BacklogItemState)</h2>
+        <ul>
+            <li class="success">It handles progressing states correctly with data set #0</li>
+            <li class="success">It handles progressing states correctly with data set #1</li>
+            <li class="success">It handles progressing states correctly with data set #2</li>
+            <li class="success">It handles progressing states correctly with data set #3</li>
+            <li class="success">It handles progressing states correctly with data set #4</li>
+            <li class="success">It handles regressing states correctly with data set #0</li>
+            <li class="success">It handles regressing states correctly with data set #1</li>
+            <li class="success">It handles regressing states correctly with data set #2</li>
+            <li class="success">It handles regressing states correctly with data set #3</li>
+            <li class="success">It handles regressing states correctly with data set #4</li>
+            <li class="success">It throws exception when todo regress</li>
+            <li class="success">It throws exception when doing progress</li>
+            <li class="success">It handles reset state correctly</li>
+        </ul>
+        <h2>Backlog Item (App\Tests\BacklogItem\BacklogItem)</h2>
+        <ul>
+            <li class="success">It disallows changing to done when backlog items are not done</li>
+            <li class="success">It allows changing to done when backlog activities are done</li>
+        </ul>
+        <h2>Notification Manager (App\Tests\NotificationManager)</h2>
+        <ul>
+            <li class="success">It calls listener method</li>
+            <li class="success">It does not call when other role is notified</li>
+            <li class="success">It does not call unsubscribed listener</li>
+        </ul>
+        <h2>Pipeline</h2>
+        <ul>
+            <li class="success">It runs pipeline commands correctly</li>
+            <li class="success">It throws exception when action fails</li>
+        </ul>
+        <h2>Project (App\Tests\Project)</h2>
+        <ul>
+            <li class="success">It moves backlog items from project backlog to sprint backlog</li>
+        </ul>
+        <h2>Source Control Library Library (App\Tests\SourceControl\SourceControlLibraryLibrary)</h2>
+        <ul>
+            <li class="success">It links sprints to issues</li>
+            <li class="success">It links backlog items to issues</li>
+            <li class="success">It links backlog activities to issues</li>
+        </ul>
+        <h2>Partial Product Cancelled State (App\Tests\Sprint\PartialProduct\PartialProductCancelledState)</h2>
+        <ul>
+            <li class="success">Progress throws exception</li>
+            <li class="success">Cancel throws exception</li>
+            <li class="success">Get report throws exception</li>
+            <li class="success">Set report throws exception</li>
+        </ul>
+        <h2>Partial Product Created State (App\Tests\Sprint\PartialProduct\PartialProductCreatedState)</h2>
+        <ul>
+            <li class="success">Progress sprint moves to in progress</li>
+            <li class="success">CancelSprint moves to cancelled</li>
+            <li class="success">Get report throws exception</li>
+            <li class="success">SetReport throws exception</li>
+        </ul>
+        <h2>Partial Product Finished State (App\Tests\Sprint\PartialProduct\PartialProductFinishedState)</h2>
+        <ul>
+            <li class="success">Progress throws exception</li>
+            <li class="success">Cancel throws exception</li>
+            <li class="success">Get report throws exception</li>
+            <li class="success">Set report throws exception</li>
+        </ul>
+        <h2>Partial Product In Progress State (App\Tests\Sprint\PartialProduct\PartialProductInProgressState)</h2>
+        <ul>
+            <li class="success">Progress to finished not allowed when report not generated</li>
+            <li class="success">Progress allowed when report generated</li>
+            <li class="success">CancelSprint moves to cancel state</li>
+        </ul>
+        <h2>Release Finished State (App\Tests\Sprint\Release\ReleaseFinishedState)</h2>
+        <ul>
+            <li class="success">ProgressSprint throws exception</li>
+            <li class="success">CancelSprint throws exception</li>
+            <li class="success">RetryPipeline throws exception</li>
+            <li class="success">GetPipeline throws exception</li>
+            <li class="success">SetPipeline throws exception</li>
+        </ul>
+        <h2>Release Sprint Cancelled State (App\Tests\Sprint\Release\ReleaseSprintCancelledState)</h2>
+        <ul>
+            <li class="success">Progress throws exception</li>
+            <li class="success">Cancel throws exception</li>
+            <li class="success">Retry throws exception</li>
+            <li class="success">GetPipeline throws exception</li>
+            <li class="success">SetPipeline throws exception</li>
+        </ul>
+        <h2>Release Sprint Created State (App\Tests\Sprint\Release\ReleaseSprintCreatedState)</h2>
+        <ul>
+            <li class="success">ProgressSprint moves to in progress state</li>
+            <li class="success">CancelSprint moves to cancel state</li>
+            <li class="success">RetryPipeline throws exception</li>
+            <li class="success">GetPipeline throws exception</li>
+        </ul>
+        <h2>Release Sprint In Progress State (App\Tests\Sprint\Release\ReleaseSprintInProgressState)</h2>
+        <ul>
+            <li class="success">ProgressSprint moves to finished state</li>
+            <li class="success">CancelSprint moves to cancel state</li>
+            <li class="success">RetryPipeline throws exception</li>
+            <li class="success">SetPipeline throws exception</li>
+        </ul>
+        <h2>Sprint (App\Tests\Sprint\Sprint)</h2>
+        <ul>
+            <li class="success">It allows editing sprint name</li>
+            <li class="success">It allows editing sprint start date</li>
+            <li class="success">It allows editing sprint end date</li>
+            <li class="success">It disallows editing sprint name</li>
+            <li class="success">It disallows editing sprint start date</li>
+            <li class="success">It disallows editing sprint end date</li>
+            <li class="success">It allows adding backlog items</li>
+            <li class="success">It disallows adding backlog items</li>
+            <li class="success">It finishes release sprint correctly</li>
+            <li class="success">It fails when pipeline fails</li>
+            <li class="success">It fails when pipeline fails and correctly finishes when pipeline retries successfully</li>
+            <li class="success">It fails when partial product has no report generated</li>
+            <li class="success">It fails when partial product has no report generated and retries successfully after adding report</li>
+        </ul>
+        <h2>Sprint Report (App\Tests\SprintReport)</h2>
+        <ul>
+            <li class="success">It tests the report functionality</li>
+        </ul>
+        <h2>Thread (App\Tests\Thread)</h2>
+        <ul>
+            <li class="success">It allows editing topic name</li>
+            <li class="success">It allows editing content</li>
+            <li class="success">It allows adding comments</li>
+            <li class="success">It disallows editing topic name</li>
+            <li class="success">It disallows editing content</li>
+            <li class="success">It disallows adding comments</li>
+        </ul>
+    </body>
+</html>
